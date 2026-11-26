@@ -65,12 +65,47 @@ If there is a constant $c>0$ for which $J_{p,t}$ is injective at $t=\lfloor c p^
 
 There is room in the target for this conjectural estimate: the source has dimension $(t^2+1)\binom{t+4}{4}\sim t^6/24$, whereas the target has dimension $p$. Injectivity is impossible once the source exceeds $p$. For $t\ge2$, Ghosh–Ward's Lemma 3 gives injectivity under the sufficient inequality $t^2 4^{4t}<p-1$. The [general-weight calculation](finite-s.md#counting-for-a-fixed-number-of-weights) checks the induction at small $X$-degrees. The question concerns the range beyond that inequality. [Ghosh–Ward, §3](https://arxiv.org/pdf/1210.1893)
 
-Run `sage -python mixed_rank.py` to compute the rank from the full truncated coefficient matrix. These are exact checks at three primes.
+### Ranks at the dimension ceiling
 
-| $p$ | $t$ | Source dimension | Rank |
-|---:|---:|---:|---:|
-| 101 | 2 | 75 | 75 |
-| 563 | 3 | 350 | 350 |
-| 1213 | 4 | 1190 | 1190 |
+Write $D=(t^2+1)\binom{t+4}{4}$. The largest possible rank is $\min(D,p)$, so the unavoidable source nullity is $\max(D-p,0)$. For $t\ge1$ the two factors of $D$ are both greater than one, so no prime equals the ceiling exactly. Each row below pairs the nearest primes on either side. Entries are exact finite-field ranks of the full $D$ by $p$ coefficient matrix.
 
-The uniform injectivity estimate remains open in this argument.
+| $t$ | $D$ | Prime below | Rank | Prime above | Rank |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 10 | 7 | 7 | 11 | 10 |
+| 2 | 75 | 73 | 73 | 79 | 75 |
+| 3 | 350 | 349 | 349 | 353 | 350 |
+| 4 | 1190 | 1187 | 1187 | 1193 | 1190 |
+| 5 | 3276 | 3271 | 3271 | 3299 | 3276 |
+| 6 | 7770 | 7759 | 7759 | 7789 | 7770 |
+| 7 | 16500 | 16493 | 16493 | 16519 | 16500 |
+
+All 30 tested pairs attained the maximum rank. The sweep used the three nearest primes on each side for $1\le t\le4$ and the nearest prime on each side for $5\le t\le7$.
+
+```sh
+sage -python mixed_rank.py --ceiling 1 2 3 4 --neighbors 3
+sage -python mixed_rank.py --ceiling 5 6 7
+```
+
+### An integer certificate for all primes at fixed t
+
+The first $D+1$ Taylor coefficients give one calculation over $\mathbb Q$ that applies at every prime $p>D$. Construct them from $\sum_{j=1}^D X^j/j^k$ for $1\le k\le4$. Every denominator has prime factors at most $D$. Reduction modulo a prime $p>D$ therefore agrees through degree $D$ with the finite-polylogarithm calculation, even when $p=D+1$.
+
+Set $a=t^2+1$. The $a$ pure monomials $1,X,\ldots,X^{a-1}$ give an identity block on coefficient indices $0,\ldots,a-1$, and vanish in all later indices. Complete this block to a square minor in two ways, using indices $a,\ldots,D-1$ or $a+1,\ldots,D$ for the remaining $D-a$ rows. Clear each of these rows' denominators using its least common denominator. Call the determinants of the two resulting lower-right integer blocks $d_0,d_1$. At every $p>D$, the clearing factors are units. A nonzero null vector would make both determinants vanish modulo $p$, forcing $p\mid\gcd(d_0,d_1)$.
+
+Hence if the gcd has no prime factor larger than $D$, $J_{p,t}$ is injective for **every** prime $p>D$. All smaller primes can be checked by direct rank over the field. The generic implication from two integer minors is formalized in Lean. The determinants for these particular Taylor coefficients are computed in Sage with exact integer arithmetic. [Lean minor criterion](../lean/BBPGrouping/MixedRank.lean)
+
+| $t$ | $D$ | Bit lengths of $\lvert d_0\rvert,\lvert d_1\rvert$ | Gcd after stripping primes $\le D$ | Primes $p\le D$ of rank $p$ |
+|---:|---:|---:|---:|---:|
+| 1 | 10 | 37, 37 | 1 | 4 of 4 |
+| 2 | 75 | 9636, 9869 | 1 | 21 of 21 |
+| 3 | 350 | 332544, 334400 | 1 | 70 of 70 |
+
+Thus for $t=1,2,3$ and every prime $p$, the rank is exactly $\min(D,p)$. The checks can be reproduced with
+
+```sh
+sage -python mixed_rank.py --certify 1 2 3
+```
+
+At $t=2$, $p=109$ illustrates why the second minor matters. Using only coefficients of degrees $0$ through $74$ gives rank $74$ in dimension $75$. Adding the coefficient at degree $75$ gives rank $75$, also the rank modulo $X^{109}$. The unique apparent relation at the shorter precision has first nonzero coefficient at $X^{75}$.
+
+For growing $t$ this gives an arithmetic target. If both minors can vanish over $\mathbb Q$, their gcd supplies no information. Otherwise, let $P_t$ be the largest prime divisor of their gcd exceeding $D$, with $P_t=1$ if there is none. A uniform bound $P_t\le C t^{12}$, together with a nonzero minor over $\mathbb Q$ for all sufficiently large $t$, would give injectivity at $t=\lfloor c p^{1/12}\rfloor$ for sufficiently small fixed $c>0$: then $p>D$ and $p>P_t$. This would imply the stated $O(p^{11/12})$ disc bound. An exceptional factor of these two minors can be tested using further coefficient indices. The fixed-$t$ verifications and boundary ranks leave the growth of $P_t$ open.
