@@ -12,4 +12,5 @@ public import BBPGrouping.UniformDiscBound
 public import BBPGrouping.SelmerDiscBound
 public import BBPGrouping.MixedRank
 public import BBPGrouping.PolylogZeroEstimate
+public import BBPGrouping.LogarithmicZeroEstimate
 public import BBPGrouping.TorsionDisc
