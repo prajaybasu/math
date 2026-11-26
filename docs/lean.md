@@ -35,6 +35,19 @@ The private lemma `crt_over_finset` extends fractional CRT to any finite set of 
 
 **Scope:** The cost model charges one modular exponentiation per selected modulus for a common power $b^e$, bounded by all prime powers up to the inclusive cutoff $X$ (compared against all odd denominators up to $X$). `bbp_prime_one` and `bbp_prime_five` cover only primes $p \equiv 1, 5 \pmod 8$ (the classic BBP shape); the Euler-criterion collapse used for the Euler/Hutton families at every odd prime, and the per-term reduction of $2^{-m_j k}$ to a common exponent, are not formalized. `grouped_modular_assembly` assumes integer numerators and one common power $b^e$. `carry_identity` is a standalone lemma not used elsewhere. Coefficient preparation, factorization, CRT arithmetic, fixed-point certification, analytic series identities for $\pi$, and C runtime/memory behavior are outside the formalization.
 
+## Quantitative BBG cutoff optimality in $\mathbb{Q}(i)$
+
+[CutoffOptimality.lean](../lean/BBPGrouping/CutoffOptimality.lean) (companion to [docs/cutoff-optimality.md](cutoff-optimality.md))
+
+| Lean name | Statement |
+| --- | --- |
+| `BBPGrouping.euler_hutton_gaussian_identity` | $(3+i)^2(7+i) = 50(1+i)$ in $\mathbb{Z}[i]$ (attains cutoff $c = 2/3$). |
+| `BBPGrouping.aurifeuillean_gaussian_identity` | $((2^r+1)+i)((2^r-1)-i) = 2(2^{2r-1}-i)$ for all $r \ge 1$. |
+| `BBPGrouping.aurifeuillean_prod`, `aurifeuillean_coprime` | $L_m M_m = 2^{4m+2}+1$ and $\gcd(L_m, M_m) = 1$ for all $m$. |
+| `BBPGrouping.gaussian_prime_elim` | If an odd prime $p$ divides $a_0^2+1$ and no other $a^2+1$ in $S$, then any Gaussian relation on $S$ has exponent $e(a_0) = 0$. |
+| `BBPGrouping.base_case_le_10` | Unconditional elimination of all reduced generators at levels $M \le 10$ ($\{9+i, 7+i, 8+i, 4+i\}$ via primes $41, 17, 13, 5$). |
+| `BBPGrouping.reducedGen_norm_dvd` | Every reduced `< 2/3` generator at level $M$ has odd norm dividing $2^M + 1$. |
+
 ## Kernel and axiom checks
 
 Run `lake build` in `lean/`. From that directory, the following prints the axiom dependencies of the public theorems:

@@ -57,7 +57,7 @@ Bit positions are 1-based (`n=1` is the first bit after the binary point; to ski
 cd lean && lake exe cache get && lake build
 ```
 
-`BBPGrouping` proves the Euler-criterion identities for $p \equiv 1, 5 \pmod 8$, the fractional CRT split, finite modular assembly, and an explicit $72X / \log X$ bound on the grouped exponentiation count for $X \ge 2$. Details in [docs/lean.md](docs/lean.md) and [docs/method.md](docs/method.md).
+`BBPGrouping` proves the Euler-criterion identities for $p \equiv 1, 5 \pmod 8$, the fractional CRT split, finite modular assembly, an explicit $72X / \log X$ bound on the grouped exponentiation count for $X \ge 2$, and the Gaussian prime-divisor elimination core behind $c = \frac{2}{3}$ cutoff optimality in $\mathbb{Q}(i)$. Details in [docs/lean.md](docs/lean.md), [docs/method.md](docs/method.md), and [docs/cutoff-optimality.md](docs/cutoff-optimality.md).
 
 ## References
 
