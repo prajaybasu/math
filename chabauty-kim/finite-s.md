@@ -68,7 +68,7 @@ For $S=\{2,3\}$, the full refined depth-four locus equals the 21 points of $X(\m
 
 ## A sufficient condition for a power saving
 
-For the four-weight test with $S=\{2,q\}$, injectivity of the truncated substitution map $J_{p,t}$ at $t=\lfloor c p^{1/12}\rfloor$ for some fixed $c>0$ and all sufficiently large primes would give $O(p^{11/12})$ occupied discs. The present implication is one-way. Exact ranks at three primes test the criterion. [Conditional proposition and rank data](uniform.md#a-sufficient-rank-estimate-for-a-power-saving)
+For the four-weight test with $S=\{2,q\}$, injectivity of the truncated substitution map $J_{p,t}$ at $t=\lfloor c p^{1/12}\rfloor$ for some fixed $c>0$ and all sufficiently large primes would give $O(p^{11/12})$ occupied discs. A differential argument gives injectivity at the larger scale $t=\lfloor c p^{1/8}\rfloor$ for small fixed $c$, yielding $O(p^{7/8})$ at depth four. Its general-weight version gives $O_s(p^{1-1/(4s)})$ at refined depth $2s$ and $O_s(p^{1-1/(8s)})$ at unrefined depth $4s$. [Zero estimate and power-saving proof](zero-estimate.md) [Conditional proposition and rank data](uniform.md#a-sufficient-rank-estimate-for-a-power-saving)
 
 ## Verification and related work
 
