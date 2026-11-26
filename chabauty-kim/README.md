@@ -73,3 +73,5 @@ Lifting uses $t=(z-\zeta)/p$. In the unscaled variable $z-\zeta$, multiplying by
 On the eight remaining discs the coefficient minima are $4,13$. Write $F_2=f_2/p^4$ and $F_4=f_4/p^{13}$. All 16 roots of $F_2\bmod p$ are simple, so each class has exactly one $p$-adic lift. Twelve have a nonzero $F_4$ digit. In each of the other four classes the known integral point is an exact common zero by the integral-point inclusion. Uniqueness of the $F_2$ lift then identifies the root. For example, on disc $2$ the depth-two root $z=2$ gives $F_4/p^2\equiv717943\pmod p$ and is excluded from $(1,0)$. [All 16 lifts](lifts.jsonl)
 
 The same eight rational residue classes occur at the base-3 Wieferich prime 11. A finite-field criterion explains when sixteen depth-two lifts suffice for the entire $(1,0)$ component. A separate cancellation gives six candidate discs at 1093 and four at 3511. [Family criterion and candidate-disc bound](family.md)
+
+The two Wolstenholme primes give a different degeneration of the depth-four determinant. [Six-prime result and reproducible Wolstenholme certificates](wolstenholme.md)

@@ -5,8 +5,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-static const ulong p = 1006003;
+static ulong p = 1006003;
 static ulong mul(ulong a, ulong b) { return (uint64_t)a * b % p; }
 static ulong sub(ulong a, ulong b) { return (a + p - b) % p; }
 
@@ -22,12 +23,19 @@ static ulong det(const ulong x[3], const ulong y[3], const ulong z[3])
 
 int main(int argc, char **argv)
 {
-    if (argc != 2 || sizeof(ulong) < 8) {
-        fprintf(stderr, "Usage on 64-bit FLINT: check_screen FIELD_TABLE\n");
+    int tables_only = argc == 4 && strcmp(argv[1], "--tables-only") == 0;
+    if ((argc != 2 && !tables_only) || sizeof(ulong) < 8) {
+        fprintf(stderr, "Usage: check_screen [--tables-only PRIME] FIELD_TABLE (64-bit FLINT)\n");
         return 1;
     }
-    FILE *file = fopen(argv[1], "wb");
-    if (!file) { perror(argv[1]); return 1; }
+    if (tables_only) {
+        if (strcmp(argv[2], "16843") == 0) p = 16843;
+        else if (strcmp(argv[2], "2124679") == 0) p = 2124679;
+        else { fprintf(stderr, "Unsupported certificate prime\n"); return 1; }
+    }
+    const char *path = argv[argc - 1];
+    FILE *file = fopen(path, "wb");
+    if (!file) { perror(path); return 1; }
     const slong count = (slong)p - 2;
     ulong *xs = flint_malloc(count * sizeof(*xs));
     ulong *inverse = flint_malloc(p * sizeof(*inverse));
@@ -54,6 +62,11 @@ int main(int argc, char **argv)
     if (fclose(file) != 0) { perror("field table"); return 1; }
     nmod_poly_clear(poly);
     flint_free(xs);
+    if (tables_only) {
+        for (int i = 0; i < 4; ++i) flint_free(rows[i]);
+        flint_free(inverse);
+        return 0;
+    }
     /* log(b)/p^v = -(b^(p-1)-1)/p^v mod p at the first nonzero digit. */
     ulong q2 = n_powmod2(2, p-1, p*p) - 1;
     ulong q3 = n_powmod2(3, p-1, p*p*p) - 1;

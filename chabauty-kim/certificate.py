@@ -40,13 +40,9 @@ def check_field_table(executable, p, rows, survivors):
     print(f"Matched {4 * (p - 2)} field entries and all sieve classifications.")
 
 
-def pilot(p, check_eliminated=False, verify_screen=None):
-    start = perf_counter()
+def centre_tables(p):
+    """Return c_1 through c_4 on every residue disc and the field inverse table."""
     d = p - 1
-    assert p > 9 and s.ZZ(p).is_prime()
-    assert pow(3, d, p * p) == 1 and pow(2, d, p * p) != 1
-    l2 = (-(pow(2, d, p * p) - 1) // p) % p
-    l3 = (-(pow(3, d, p**3) - 1) // (p * p)) % p
     w = int(s.GF(p).multiplicative_generator())
     zs = [1]
     for _ in range(1, d):
@@ -70,6 +66,17 @@ def pilot(p, check_eliminated=False, verify_screen=None):
             row[a] = int(conv[d - 1 + j]) * chirp[j] * inv[a - 1] % p
         rows.append(row)
         coeff = [x * y % p for x, y in zip(coeff, base)]
+    return rows, inv
+
+
+def pilot(p, check_eliminated=False, verify_screen=None):
+    start = perf_counter()
+    d = p - 1
+    assert p > 9 and s.ZZ(p).is_prime()
+    assert pow(3, d, p * p) == 1 and pow(2, d, p * p) != 1
+    l2 = (-(pow(2, d, p * p) - 1) // p) % p
+    l3 = (-(pow(3, d, p**3) - 1) // (p * p)) % p
+    rows, inv = centre_tables(p)
     table_time = perf_counter() - start
     c1, c2, c3, c4 = rows
     r = []
