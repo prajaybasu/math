@@ -153,4 +153,26 @@ theorem sixth_root_distribution {F : Type*} [Field F] [CharZero F] (n : ℕ)
   exact ⟨he, ⟨fun h => (mul_eq_zero.mp (he.symm.trans (by simp [h]))).resolve_left hpos,
     fun h => (mul_eq_zero.mp (he.trans (by simp [h]))).resolve_left (pow_ne_zero _ (by norm_num))⟩⟩
 
+private theorem weighted_geom_sum_mul {R : Type*} [CommRing R] (z : R) (n : ℕ) :
+    (∑ j ∈ Finset.range n, (j : R) * z ^ j) * (z - 1) =
+      (n : R) * z ^ n - z * ∑ j ∈ Finset.range n, z ^ j := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+    simp only [Finset.sum_range_succ, Nat.cast_succ, pow_succ, add_mul]
+    linear_combination ih
+
+/-- The constant and linear block sums used for a second digit at a
+Teichmüller point. This also works over the residue ring modulo p². -/
+theorem teichmuller_block_sums {R : Type*} [CommRing R] (z : R) (p : ℕ)
+    (hz : z ^ p = z) (hu : IsUnit (z - 1)) :
+    (∑ j ∈ Finset.range p, z ^ j) = 1 ∧
+      (∑ j ∈ Finset.range p, (j : R) * z ^ j) * (z - 1) = ((p : R) - 1) * z := by
+  have hsum : (∑ j ∈ Finset.range p, z ^ j) = 1 := by
+    apply hu.mul_left_inj.mp
+    simpa [hz] using geom_sum_mul z p
+  refine ⟨hsum, ?_⟩
+  rw [weighted_geom_sum_mul, hz, hsum]
+  ring
+
 end BBPGrouping.TorsionDisc

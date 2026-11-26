@@ -105,6 +105,39 @@ Both factors are $p$-adic units for $p\ge7$. This identifies the two vanishing t
 
 Thus these three torsion orders give two conductor cases. For each conductor the fixed-order density question asks whether the split primes at which **both** $L_p(2,\chi\omega^{-1})$ and $L_p(4,\chi\omega^{-3})$ vanish form a set of Dirichlet density zero. Other torsion orders and the $(1,0)$ component enter separately.
 
+### Conductor three below twenty million
+
+For $p\ge7$, the weight-two and weight-four branch characters have quotient $\omega^2$, of order $(p-1)/2$. Hence each branch has its own Iwasawa power series. A fixed-branch zero count does not give the frequency of simultaneous zeros as $p$ varies.
+
+Let $p\equiv1\pmod3$, let $\eta$ be a primitive cubic root and write $M_k=(1-p^{-k})\operatorname{Li}_k(\eta)$. With $h=p-k$ odd, the first digit is
+$$
+M_k\equiv -\frac{(\eta-\eta^{-1})3^{h-1}}{h}B_h(1/3)\pmod p.
+$$
+Indeed the unit moment is congruent to the power moment of exponent $h-1$. The Euler factor $1-p^{h-1}$ is $1$ modulo $p$. The formula for $L(1-h,\chi_{-3})$ gives $-3^{h-1}(B_h(1/3)-B_h(2/3))/h$, and reflection gives $B_h(2/3)=-B_h(1/3)$. All factors multiplying $B_h(1/3)$ in the displayed congruence are units.
+
+Sun reports that $205129$ is the only prime $3<p<2\cdot10^7$ with $B_{p-2}(1/3)\equiv0\pmod p$. At that prime the Teichmüller root with residue $81187$ gives $M_2\equiv170025p\pmod{p^2}$ and $M_4\equiv30238\pmod p$. The inverse root gives the negatives. Thus, using Sun's reported range, weight two excludes primitive cubic and sixth roots on the $(1,1)$ component for every auxiliary prime $7\le p<2\cdot10^7$. At nonsplit primes these roots do not belong to $\mathbb Q_p$. [Sun, *Open Conjectures on Congruences*, Remark 17](https://www.researchgate.net/publication/336577970_Open_Conjectures_on_Congruences)
+
+To reproduce the exceptional prime, group the unit moment modulo $q=p^2$ by $a=u+pb$. For $0\le b<p$ the sums of $z^b$ and $b z^b$ are $1$ and $(p-1)z/(z-1)$ respectively. The binomial expansion of $(u+pb)^{-k}$ then gives the following calculation. [Block sum identities in Lean](../lean/BBPGrouping/TorsionDisc.lean)
+
+```python
+def cubic_moment(p, residue, k):
+    q = p*p
+    z = pow(residue, p, q)
+    assert (z*z + z + 1) % q == 0
+    powers = (1, z, z*z % q)
+    den = pow(1-z, -1, q)
+    correction = k*p*(p-1)*z*den % q
+    total = 0
+    for u in range(1, p):
+        inv = pow(u, -1, q)
+        total += powers[u % 3] * pow(inv, k, q) * (1 + correction*inv % q)
+    return total * den % q
+
+p = 205129
+assert cubic_moment(p, 81187, 2) == 170025*p
+assert cubic_moment(p, 81187, 4) % p == 30238
+```
+
 ## Reproducible finite check
 
 In Sage the equivalent finite-polylogarithm gcd avoids constructing large integer Eulerian coefficients. This checks all 427 primes from 7 through 3000 and finds $G_p=1$ at each. This lies inside Lüdtke's published range.
