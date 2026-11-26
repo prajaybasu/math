@@ -9,6 +9,8 @@ The implied constants depend only on $s$. For instance, the refined bound applie
 
 For $S=\varnothing$ the refined locus is empty. In the unrefined case the published depth-one result already bounds the locus by the two primitive sixth roots of unity. This treats the empty set at positive depth. [Betts–Kumpitsch–Lüdtke, Remark 5.21](https://arxiv.org/pdf/2305.09462#page=45)
 
+Zehavi proves a dimension inequality yielding finiteness for smooth projective curves of genus at least two with a rational base point, at each odd prime of good reduction and sufficiently large depth. Here the curve is affine, the depth is fixed in terms of $s$, and the bound counts occupied residues as $p$ varies. [Zehavi, §1](https://arxiv.org/html/2611.18218v1#S1)
+
 ## The polynomial map
 
 When $2\notin S$ the refined locus is empty by the local condition at two. Otherwise fix any one of the $3^s$ refinements. Betts, Kumpitsch and Lüdtke give two weight-one parameters for each prime of $S$ and one generator in each odd weight $3,5,\ldots,n-1$. On each refinement one of $x_\ell,y_\ell,x_\ell+y_\ell$ vanishes for each $\ell$. This leaves $s+(s-1)=n-1$ free affine parameters $v$. Their localisation formulas over $K=\mathbb Q_p$ give polynomials $L(v)$ and $Y_m(v)$ for the scaled coordinates $p^{-1}\log$ and $p^{-m}\operatorname{Li}_m$, respectively. The first has degree at most one and $Y_m$ has ordinary degree at most $m$ by the weight grading. These bounds apply after specialising all periods and allow any coefficients to vanish. [Betts–Kumpitsch–Lüdtke, Proposition 5.3, Theorem 5.6 and Proposition 5.11](https://arxiv.org/pdf/2305.09462)
@@ -50,11 +52,15 @@ Summing over the refinements multiplies the constant by at most $3^s$. The full 
 
 The same proof bounds the **unrefined** full locus at depth $n=4s$ for $s\ge1$. The unrestricted polylogarithmic parameter count becomes $2s+(2s-1)=n-1$. There is one parametrisation and no sum over refinements. Both conclusions bound residue discs at fixed depth. Neither requires explicit period values or a period nonvanishing conjecture.
 
-## Corollary 1.2. An affine genus-two consequence
+## Theorem 1.2. Power saving at fixed depth
+
+Under the hypotheses of Theorem 1.1, the full refined locus at depth $2s$ occupies $O_s(p^{1-1/(4s)})$ discs and the full unrefined locus at depth $4s$ occupies $O_s(p^{1-1/(8s)})$. At $S=\{2,q\}$ the refined depth-four bound is $O(p^{7/8})$, uniformly in the odd prime $q$. For $n$ weights the differential zero estimate permits $t=\lfloor c_n p^{1/(2n)}\rfloor$ for small fixed $c_n$. The count above gives $O_{n,h,d}(p/t)$, and the degree bounds and number of refinements depend only on $s$. [Zero estimate and parameter choice](zero-estimate.md)
+
+### An affine genus-two consequence
 
 Let $C$ be the smooth projective model of $y^2=x^5-x$, and take $U$ to be the inverse image of $X$ under its hyperelliptic projection $x$. This deletes the three points over $0,1,\infty$. The six branch points of the double cover are distinct in every odd characteristic, so $C$ has genus two and good reduction away from two. The map $U\to X$ is finite of degree two over $\mathbb Z[1/2]$. The point $(-1,0)$ and its image provide compatible integral base points.
 
-Take $S=\{2\}$ and any odd $p$. The morphism sends the full refined depth-two locus of $U$ into that of $X$. Indeed it induces a map on the class-two unipotent fundamental groups. The local Kummer maps commute with it at each place, so the local conditions defined by closures of Kummer images map into the corresponding conditions on $X$. Localisation then gives the asserted containment on loci. Over each occupied residue of $X$ the equation $y^2=x^5-x$ gives at most two residues of $U$. Thus the number of occupied discs on $U$ is $O(p/\log p)$ at depth two. Filling the three punctures changes the fundamental group and the local conditions. The bound above counts discs of the entire affine refined locus.
+Take $S=\{2\}$ and any odd $p$. The morphism sends the full refined depth-two locus of $U$ into that of $X$. Indeed it induces a map on the class-two unipotent fundamental groups. The local Kummer maps commute with it at each place, so the local conditions defined by closures of Kummer images map into the corresponding conditions on $X$. Localisation then gives the asserted containment on loci. Over each occupied residue of $X$ the equation $y^2=x^5-x$ gives at most two residues of $U$. Thus the number of occupied discs on $U$ is $O(p^{3/4})$ at depth two by Theorem 1.2 with $s=1$. Filling the three punctures changes the fundamental group and the local conditions. The bound above counts discs of the entire affine refined locus.
 
 A separate prior result for smooth projective curves applies when a Jacobian quotient of dimension at least two has rank zero and finite Tate–Shafarevich group and the curve has a rational base point. A fixed finite subscheme already contains the depth-one locus at good primes, giving a uniform constant bound in that setting. [Betts–Kumpitsch–Lüdtke, §5.7](https://arxiv.org/pdf/2305.09462)
 
@@ -62,13 +68,17 @@ A separate prior result for smooth projective curves applies when a Jacobian quo
 
 For $S=\{2,3\}$, write $k=\log_p(2)/p$ and let $A$ be the normalised $\operatorname{Li}_4$ cofactor of the determinant anchored at $3,9$, with the row order and scaling specified in the proof. Then $9A\equiv52kB_{p-3}\pmod p$ for $p\ge7$. For $p\ne13$ the two causes of its vanishing are the base-two Wieferich congruence and divisibility of the numerator of $B_{p-3}$ by $p$. At $13$ the scalar $52$ vanishes. The base-three Wieferich case affects the valuation of $\log_p(3)$ in the equations. [Cofactor and Bernoulli calculation](wolstenholme.md) · [Base-three valuation analysis](family.md)
 
+For the $(1,1)$ component, a primitive fourth root $i$ at a split prime $p\ge7$ passes both finite-field tests exactly when $p$ divides both Euler numbers $E_{p-3}$ and $E_{p-5}$. Meštrović's weight-two search and three weight-four evaluations exclude both primitive fourth roots throughout $7\le p<10^7$. The computations test the finite reductions. [Derivation and values](torsion.md#the-factor-for-primitive-fourth-roots) · [Meštrović](https://arxiv.org/abs/1212.3602)
+
 ## Theorem 1.4. Six exceptional auxiliary primes
 
 For $S=\{2,3\}$, the full refined depth-four locus equals the 21 points of $X(\mathbb Z[1/6])$ at each of $11,1093,3511,16843,1006003,2124679$. Lüdtke's published range covers the first three. The certificates for $16843,1006003,2124679$ extend this conclusion to those three primes beyond that range. [Lüdtke, Theorem 1.2](https://arxiv.org/abs/2402.03573) · [Wolstenholme certificates](wolstenholme.md) · [Certificate for 1006003](README.md)
 
-## A sufficient condition for a power saving
+## Open problems
 
-For the four-weight test with $S=\{2,q\}$, injectivity of the truncated substitution map $J_{p,t}$ at $t=\lfloor c p^{1/12}\rfloor$ for some fixed $c>0$ and all sufficiently large primes would give $O(p^{11/12})$ occupied discs. A differential argument gives injectivity at the larger scale $t=\lfloor c p^{1/8}\rfloor$ for small fixed $c$, yielding $O(p^{7/8})$ at depth four. Its general-weight version gives $O_s(p^{1-1/(4s)})$ at refined depth $2s$ and $O_s(p^{1-1/(8s)})$ at unrefined depth $4s$. [Zero estimate and power-saving proof](zero-estimate.md) [Conditional proposition and rank data](uniform.md#a-sufficient-rank-estimate-for-a-power-saving)
+For four weights, injectivity of the truncated substitution map $J_{p,t}$ all the way to the dimension scale $t\asymp p^{1/6}$ with a small absolute constant would give $O(p^{5/6})$ occupied discs. The all-prime certificates for $t=1,2,3$ and exact ranks near the ceiling through $t=7$ address fixed test spaces. Uniform injectivity for growing $t$ at this scale remains open. [Rank certificates and numerical tests](uniform.md#ranks-at-the-dimension-ceiling)
+
+For $(1,1)$ at depth four, a sufficient condition is that the extra finite-field common factors occur at a set of primes of Dirichlet density zero. Primitive fourth roots already give a simultaneous Euler divisibility test. Common factors surviving modulo $p$ may disappear at higher precision. The $(1,0)$ component requires a separate argument to determine the full locus. [Fixed-depth torsion criterion](torsion.md)
 
 ## Verification and related work
 
