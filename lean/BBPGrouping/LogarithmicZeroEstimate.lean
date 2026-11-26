@@ -175,6 +175,28 @@ theorem logarithmic_nonvanishing {ι J : Type*} [Nonempty ι] [Fintype ι]
   exact unit_row_nonvanishing liftPoly (RatFunc.algebraMap_injective k)
     M d unitCol hi hd (hs ▸ hh) w hw
 
+/-- In coordinates centred at the jet, evaluation intertwines the cleared
+row connection with scaled differentiation to the prescribed precision. -/
+theorem jet_derivative_preserves {F J : Type*} [Field F] [Fintype J]
+    (m : ℕ) (b : Polynomial F) (A : Matrix J J (Polynomial F))
+    (v w : J → Polynomial F)
+    (jet : ∀ j, X ^ m ∣ X * b * (w j).derivative - (A *ᵥ w) j)
+    (van : X ^ m ∣ v ⬝ᵥ w) :
+    X ^ m ∣ (fun j => X * b * (v j).derivative + (v ᵥ* A) j) ⬝ᵥ w := by
+  have scaled := scaled_deriv_preserves m b _ van
+  have defect : X ^ m ∣ ∑ j, v j * (X * b * (w j).derivative - (A *ᵥ w) j) :=
+    Finset.dvd_sum fun j _ => dvd_mul_of_dvd_right (jet j) _
+  convert dvd_sub scaled defect using 1
+  simp only [dotProduct, derivative_sum, derivative_mul, Finset.mul_sum,
+    add_mul, mul_add, mul_sub, Finset.sum_add_distrib, Finset.sum_sub_distrib]
+  have assoc := Matrix.dotProduct_mulVec v A w
+  simp only [dotProduct] at assoc
+  rw [assoc]
+  simp only [← Finset.sum_sub_distrib, ← Finset.sum_add_distrib]
+  apply Finset.sum_congr rfl
+  intro j _
+  ring
+
 /-- The Taylor coefficient constraints on a square array admit a nonzero
 solution as long as fewer than n² coefficients are prescribed to vanish. -/
 theorem word_jet_kernel {F : Type*} [Field F] {n j : ℕ} (hj : j < n * n)
