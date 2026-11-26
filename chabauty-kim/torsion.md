@@ -85,6 +85,26 @@ def second_digit(p, i):
     return moment // p
 ```
 
+## Orders three, four and six at full precision
+
+Fix a weight $k\in\{2,4\}$. For $d=3,4$ take $p\ge7$ with $p\equiv1\pmod d$, a primitive $d$-th root $\eta\in\mathbb Z_p$, and the primitive odd quadratic character $\chi$ of conductor $d$. Write $\omega$ for the Teichmüller character modulo $p$. With the convention $L_p(1-j,\psi)=(1-(\psi\omega^{-j})(p)p^{j-1})L(1-j,\psi\omega^{-j})$ using the primitive character in the Euler factor, the exact formula is
+$$
+2(1-p^{-k})\operatorname{Li}_k(\eta)
+ = (\eta-\eta^{-1})L_p(k,\chi\omega^{1-k}).
+$$
+The branch $\chi\omega^{1-k}$ is even. Both displayed prefactors are nonzero. In particular the equality compares vanishing at a specific argument on a specified branch. [Coleman, §§VI–VII](https://www.digizeitschriften.de/download/pdf/356556735_0069/log29.pdf) · [Kubota–Leopoldt interpolation, equation (1.1)](https://www.cambridge.org/core/journals/proceedings-of-the-edinburgh-mathematical-society/article/sum-expressions-for-kubotaleopoldt-padic-lfunctions/1DF77ECEC0EE657089F2E26C0F8AA351)
+
+To see the normalization, the character transform of the additive weights is $\eta^a-\eta^{-a}=(\eta-\eta^{-1})\chi(a)$ for every integer $a$. For even weight the two inverse-root moments have opposite signs. Their difference thus contributes the factor 2. More explicitly, let $n_r=p^{r-1}(p-1)-k$. On the units modulo $p^r$, $a^{n_r}=a^{-k}$. The difference of the two full power moments at exponent $n_r$ is $(\eta-\eta^{-1})L(-n_r,\chi)$ by the character transform and the Bernoulli generating series. Removing multiples of $p$ multiplies it by $1-p^{n_r}$ since $\eta^p=\eta$. Interpolation and $-n_r\to k$ in $\mathbb Z_p$ give the formula. The single-root moment modulo $p^r$ can be evaluated directly as $(1-\eta)^{-1}\sum_{1\le a<p^r,\ p\nmid a}\eta^a a^{-k}$.
+
+For a primitive **sixth** root $\xi$ put $\eta=\xi^2$ of order three. Then $-\xi=\eta^{-1}$. Doubling gives $\operatorname{Li}_k(\xi)+\operatorname{Li}_k(-\xi)=2^{1-k}\operatorname{Li}_k(\eta)$, and even-weight inversion gives $\operatorname{Li}_k(\eta^{-1})=-\operatorname{Li}_k(\eta)$. Hence
+$$
+\operatorname{Li}_2(\xi)=\tfrac32\operatorname{Li}_2(\xi^2),\qquad
+\operatorname{Li}_4(\xi)=\tfrac98\operatorname{Li}_4(\xi^2).
+$$
+Both factors are $p$-adic units for $p\ge7$. This identifies the two vanishing tests at every precision. The odd character modulo six is induced from conductor three. Lean proves the scalar relation and equivalence of zeros from the distribution and inversion identities. [Lean declaration](../lean/BBPGrouping/TorsionDisc.lean) · [Coleman's functional equations](https://www.digizeitschriften.de/download/pdf/356556735_0069/log29.pdf)
+
+Thus these three torsion orders give two conductor cases. For each conductor the fixed-order density question asks whether the split primes at which **both** $L_p(2,\chi\omega^{-1})$ and $L_p(4,\chi\omega^{-3})$ vanish form a set of Dirichlet density zero. Other torsion orders and the $(1,0)$ component enter separately.
+
 ## Reproducible finite check
 
 In Sage the equivalent finite-polylogarithm gcd avoids constructing large integer Eulerian coefficients. This checks all 427 primes from 7 through 3000 and finds $G_p=1$ at each. This lies inside Lüdtke's published range.

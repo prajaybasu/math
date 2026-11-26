@@ -136,4 +136,21 @@ theorem one_one_of_extraFactor_one {R : Type*} [CommRing R] [IsDomain R]
   have odd := (Fact.out : p.Prime).odd_of_ne_two (by omega)
   exact fixed_lift_unique p red hz odd.neg_one_pow (by simpa using ha)
 
+/-- Distribution at a primitive sixth root and even-weight inversion at its
+square identify the order-six value with the order-three value. The parameter
+n is the weight minus one. The analytic identities are explicit hypotheses. -/
+theorem sixth_root_distribution {F : Type*} [Field F] [CharZero F] (n : ℕ)
+    (f : F → F) (z : F) (hcube : z ^ 3 = -1)
+    (hinv : f ((z ^ 2)⁻¹) = -f (z ^ 2))
+    (hdist : (2 : F) ^ n * (f z + f (-z)) = f (z ^ 2)) :
+    (2 : F) ^ n * f z = ((2 : F) ^ n + 1) * f (z ^ 2) ∧
+      (f z = 0 ↔ f (z ^ 2) = 0) := by
+  have hz : -z = (z ^ 2)⁻¹ := eq_inv_of_mul_eq_one_left (by linear_combination -hcube)
+  rw [hz, hinv] at hdist
+  have he : (2 : F) ^ n * f z = ((2 : F) ^ n + 1) * f (z ^ 2) := by
+    linear_combination hdist
+  have hpos : (2 : F) ^ n + 1 ≠ 0 := by exact_mod_cast (Nat.succ_ne_zero (2 ^ n))
+  exact ⟨he, ⟨fun h => (mul_eq_zero.mp (he.symm.trans (by simp [h]))).resolve_left hpos,
+    fun h => (mul_eq_zero.mp (he.trans (by simp [h]))).resolve_left (pow_ne_zero _ (by norm_num))⟩⟩
+
 end BBPGrouping.TorsionDisc
