@@ -1,4 +1,4 @@
-# A lift bound at base-3 Wieferich primes
+# Candidate discs at base-2 and base-3 Wieferich primes
 
 Fix the thrice-punctured line over $\mathbb Z[1/6]$. Take a prime $p\ge7$ with
 $3^{p-1}=1\pmod {p^2}$ and $2^{p-1}\ne1\pmod {p^2}$. There are two further unit tests below. The result applies at any positive valuation of $s=\log_p(3)/p$. This scale is nonzero since the only units in the kernel of the logarithm on $\mathbb Z_p^\times$ are roots of unity.
@@ -20,6 +20,8 @@ Define $H(y)=A d^3y_1^2y_4-Bkd^2 y_1y_2y_3-Ck^3y_2^3$. Multiply the second equat
 
 Both implications include discs on which $c_1=0$. On the $(1,1)$ component $\log z=0$ fixes the centre and $\ell_2(a)=\ell_4(a)=0$ is necessary. [Lean disc test](../lean/BBPGrouping/MirimanoffFamily.lean) · [Lüdtke, §3](https://arxiv.org/abs/2402.03573)
 
+Write $b=v_p(\log_p 3)\ge2$. The raw cofactors are $p^8s^4 A,p^8s^3 B,p^8s C$. Their valuations are at least $(4+4b,5+3b,7+b)$, with equality in each entry precisely when its normalized cofactor is a unit. On the $L\equiv0$ branch of a nonsingular disc, $dY_1$ is a unit, so $L/s=-kY_2/(dY_1)$ is integral. Substituting this quotient into the determinant exhibits the common raw factor $p^{12}s^4$, of valuation $8+4b$. Individual terms can have higher valuation. On a singular disc the cubic excludes a **common** root whenever $c_2\ne0$, including when $b>2$.
+
 ## An exact criterion for sixteen lifts
 
 Set $D=(X^{p-1}-1)/(X-1)$ and $T=H(\ell)Q\bmod D$. The monic $W=\gcd(D,T)$ has one simple factor per candidate disc on $(1,0)$. A Bézout identity $UD+VT=W$ bounds their number by $\deg W$. If $\gcd(D,\ell_1,\ell_2)=1$, every candidate has $c_1\ne0$ (at $c_1=0$ either test forces $c_2=0$). The normalized depth-two equation then reduces to $dL(c_1+hL)$. Its two roots are distinct with derivatives $\pm dc_1$, and each has a unique Hensel lift. This gives exactly $2\deg W$ simple depth-two classes to check. The derivative reduction follows also from $Y_m'=Y_{m-1}$ in $L$ and $Y_0\equiv h$. Lüdtke already gives the per-disc upper bound in this valuation regime. [Lüdtke, Proposition 5.2 and Lemma 5.5](https://arxiv.org/abs/2402.03573)
@@ -40,11 +42,30 @@ sage -python family_budget.py 11
 sage -python family_budget.py 1006003
 ```
 
+## When the logarithm of two is exceptional
+
+Now let $b=v_p(\log_p 2)\ge2$ and $v_p(\log_p 3)=1$, retaining $k=\log_p(2)/p$, $s=\log_p(3)/p$ and the unit condition on $d$. Here $s$ is a unit. The anchor values require the translated local expansions at $L=s,2s$. Since $Y_1(3)=-k$ and $Y_1(9)=-3k$, the third entries of the anchor rows are exactly $-k,-24k$. Hence $A=kA'$, $B=kB'$. The raw minor valuations are at least $(7+b,7+b,8)$, with equality when $A',B',C$ are units.
+
+Eliminating $LY_1$ with the depth-two equation gives, after cancelling the nonzero $sk$,
+$$s^2dA'Y_4+sdB'LY_3-CL^2Y_2=0.$$
+Reduce this identity modulo $p$. Write $V_m(L)=(a-1)Y_m(L)$ in the residue field, so
+$$V_m(L)=\sum_{j=0}^{m-1}\ell_{m-j}(a)L^j/j!-aL^m/m!.$$
+The reduced depth-two equation is $dL(\ell_1(a)-aL)=0$ after multiplication by $a-1$. Evaluate
+$$G(L)=s^2dA'V_4(L)+sdB'LV_3(L)-CL^2V_2(L)$$
+at $L=0$ and $L=\ell_1(a)/a$. A common root must survive at least one of these two evaluations. This reasoning allows the two coordinates to coincide. [Lean cancellation and disc test](../lean/BBPGrouping/MirimanoffFamily.lean)
+
+| $p$ | $(A',B',C)\bmod p$ | raw minor valuations | $(1,0)$ candidate residues | $(1,1)$ |
+|---:|---|---|---|---|
+| 1093 | $(236,198,598)$ | $(9,9,8)$ | $3,9,822,972,1090,1092$ | $-1$ |
+| 3511 | $(2123,3162,1461)$ | $(9,9,8)$ | $3,9,3508,3510$ | $-1$ |
+
+Run the same Sage commands with arguments 1093 and 3511. As a cross-check, evaluating the two unscaled anchor rows with the certificate’s Taylor series gives the same raw minor valuations at absolute precision 16 at each prime. In each example the only singular candidate is $-1$, where $Y_1(-1)=-k$. On this singular disc the two reduced classes coincide. The per-disc upper bound of two depth-two points still applies by Proposition 5.2, while a simple-root Hensel test requires a further subdivision there. Lüdtke's published range already covers the refined loci at both primes. [Lüdtke, Theorem 1.2](https://arxiv.org/abs/2402.03573)
+
 ## A uniform bound on the number of candidate discs
 
-For any nonzero $R\in\mathbb F_p[X,y_1,\ldots,y_4]$ of $X$-degree at most one and total $y$-degree at most six, the number of $a\ne0,1$ with $R(a,\ell_1(a),\ldots,\ell_4(a))=0$ is $O(p/\log p)$ with an absolute implied constant. The coefficients may vary with $p$. Apply this to
+For any nonzero $R\in\mathbb F_p[X,y_1,\ldots,y_4]$ of $X$-degree at most three and total $y$-degree at most six, the number of $a\ne0,1$ with $R(a,\ell_1(a),\ldots,\ell_4(a))=0$ is $O(p/\log p)$ with an absolute implied constant. The coefficients may vary with $p$. Apply this to
 $$R=y_2 H(y)(y_1^2+2Xy_2).$$
-It is nonzero since $Ck^3$ is a unit. The zero set contains the candidates from both components. This estimates the number of discs; the finite-field computation and the precision required for individual lifts are separate costs.
+It is nonzero since $Ck^3$ is a unit. The zero set contains the candidates from both components at a base-3 exceptional prime. For the base-2 case with $A'ds$ a unit, use $R=y_2y_4X^3 G(y_1/X)$ with the displayed formula for $V_m$ over the polynomial ring, replacing $a$ by $X$ and $\ell_i$ by $y_i$. The factor $X^3$ clears all denominators. Its product with $G$ contains $s^2dA' X^3y_4$ with nonzero coefficient. The same degree bounds apply. This estimates the number of discs. The finite-field computation and the precision required for individual lifts are separate costs.
 
 The proof adapts the auxiliary-polynomial method of Ghosh and Ward for individual finite polylogarithms. We use their mixed-polynomial nonvanishing lemma and impose differential conditions modulo $R$. [Ghosh and Ward, §3, Lemma 3](https://arxiv.org/pdf/1210.1893)
 
@@ -53,13 +74,13 @@ $$\delta=X(1-X)\partial_X+(X-W)\partial_{y_1}
  +(1-X)\sum_{m=2}^4y_{m-1}\partial_{y_m},\qquad \delta W=0.$$
 Under $W=X^p$, $y_m=\ell_m(X)$ this acts as $X(1-X)d/dX$ by direct differentiation of the defining sums.
 
-For $0\le j<r$, impose that $(\delta^j\Phi)|_{W=X}$ be a multiple of $R$. Each output has $y$-degree at most $t$ and $X$-degree at most $E=A_0+B_0+r$, since each application increases total degree in $(X,W)$ by at most one. Multiplication by $R$ embeds the box with bounds $(E-1,t-6)$ in the output box $(E,t)$. Thus each condition costs at most $(E+1)N_t-E N_{t-6}$ linear constraints. Six successive differences of $N_t$ give $N_t-N_{t-6}\le24N_t/(t+1)$. Since $E+1\le3t^2$, the total rank is at most $t^2(72t+1)N_t$, strictly below the input dimension. Choose a nonzero solution $\Phi$.
+For $0\le j<r$, impose that $(\delta^j\Phi)|_{W=X}$ be a multiple of $R$. Each output has $y$-degree at most $t$ and $X$-degree at most $E=A_0+B_0+r$, since each application increases total degree in $(X,W)$ by at most one. Multiplication by $R$ embeds the box with bounds $(E-3,t-6)$ in the output box $(E,t)$. Thus each condition costs at most $(E+1)N_t-(E-2)N_{t-6}$ linear constraints. Six successive differences of $N_t$ give $N_t-N_{t-6}\le24N_t/(t+1)$. Since $E+1\le3t^2$, the total rank is at most $t^2(72t+3)N_t$, strictly below the input dimension. Choose a nonzero solution $\Phi$.
 
 The specialization $P=\Phi(X,X^p,\ell(X))$ is nonzero. Take the least $W$-exponent with a nonzero coefficient $f(X,y)$. Its $X$-degree is at most $t^2$ and its weighted $y$-degree (weight $m$ on $y_m$) is at most $4t$. Lemma 3 of Ghosh and Ward implies $X^p\nmid f(X,\ell(X))$ if $f$ depends on $y$; the same follows from the degree if it only depends on $X$. Higher $W$-powers cannot cancel this first block.
 
 At each root under consideration $a^p=a$, so the imposed conditions give $((X(1-X)d/dX)^jP)(a)=0$ for all $j<r$. Since $a(1-a)\ne0$ and $r<p$, a first nonzero Taylor coefficient of order $j<r$ would give a nonzero $j$th such derivative. Hence each root has multiplicity at least $r$. The degree of $P$ is at most $t^2+128pt+(p-1)t$, which bounds the root count by $1+129p/t$. For all sufficiently large primes, $t=\lfloor\log(p)/(8\log 4)\rfloor$ satisfies the size conditions. Enlarging the absolute constant covers the remaining primes.
 
-Lean proves elimination, the resulting disc test, simplicity of the two reduced classes, the Bézout bound, and the dimension-to-root-count implication given specialization and multiplicity hypotheses. The differential construction, the application of the published nonvanishing lemma, and the asymptotic parameter choice above are paper proofs. The two numerical Bézout computations run in Sage. Lean also checks the two anchor rows and all candidate residues at $p=11$ directly from the finite sums. [Lean statements](../lean/BBPGrouping/MirimanoffFamily.lean)
+Lean proves elimination, the resulting disc test, simplicity of the two reduced classes, the Bézout bound, and the dimension-to-root-count implication given specialization and multiplicity hypotheses. The differential construction, the application of the published nonvanishing lemma, and the asymptotic parameter choice above are paper proofs. The numerical Bézout computations run in Sage. Lean also checks the two anchor rows and all candidate residues at $p=11$ directly from the finite sums. [Lean statements](../lean/BBPGrouping/MirimanoffFamily.lean)
 
 ## Related Chabauty–Kim results
 

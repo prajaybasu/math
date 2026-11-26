@@ -79,6 +79,28 @@ theorem disc_test (p : ℕ) [Fact p.Prime] (a c₁ c₂ c₃ c₄ : ZMod p)
     exact quadratic_of_local_zeros a c₁ c₂ h _ hh (h₁.symm.trans t₁)
       (by simpa [t₂] using h₂.symm)
 
+/-- At a base-two exceptional prime the third anchor column supplies an exact factor k
+in the first two cofactors. Removing it before reduction gives a stronger necessary equation. -/
+theorem base_two_cancel {R : Type*} [CommRing R] [IsDomain R] (s k d A' B' C L y₁ y₂ y₃ y₄ : R)
+    (hs : s ≠ 0) (hk : k ≠ 0) (f₂ : s * k * y₂ + d * L * y₁ = 0)
+    (f₄ : s ^ 3 * (k * A') * y₄ + s ^ 2 * (k * B') * L * y₃ + C * L ^ 3 * y₁ = 0) :
+    s ^ 2 * d * A' * y₄ + s * d * B' * L * y₃ - C * L ^ 2 * y₂ = 0 := by
+  suffices he : (s * k) *
+      (s ^ 2 * d * A' * y₄ + s * d * B' * L * y₃ - C * L ^ 2 * y₂) = 0 from
+    (mul_eq_zero.mp he).resolve_left (mul_ne_zero hs hk)
+  linear_combination d * f₄ - C * L ^ 2 * f₂
+
+/-- After reduction the candidate coordinates are zero and the finite logarithm divided by a.
+G evaluates the cancelled determinant in the translated expansions. -/
+theorem base_two_disc_test {F : Type*} [Field F] (d a e L : F) (G : F → F)
+    (hd : d ≠ 0) (ha : a ≠ 0) (f₂ : d * L * (e - a * L) = 0) (f₄ : G L = 0) :
+    (L = 0 ∧ G 0 = 0) ∨ (L = e / a ∧ G (e / a) = 0) := by
+  by_cases hz : L = 0
+  · exact Or.inl ⟨hz, hz ▸ f₄⟩
+  · have h₁ := (mul_eq_zero.mp f₂).resolve_left (mul_ne_zero hd hz)
+    have he : L = e / a := (eq_div_iff ha).2 (by linear_combination -h₁)
+    exact Or.inr ⟨he, he ▸ f₄⟩
+
 /-- On a nonsingular disc the reduced depth-two polynomial has two distinct simple roots. -/
 theorem simple_classes {F : Type*} [Field F] (c h d L : F)
     (hc : c ≠ 0) (hh : h ≠ 0) (hd : d ≠ 0) :
@@ -138,7 +160,7 @@ theorem candidates_eleven :
     finiteLi11 2 3 / 2 = 3 ∧
     ∀ a : ZMod 11, a ≠ 0 → a ≠ 1 →
       let y := fun m => finiteLi11 m a
-      ((cubic 6 3 3 1 4 (y 1) (y 2) (y 3) (y 4) = 0 ∨ (y 1)^2 + 2*a*y 2 = 0) ↔
+      ((cubic 6 3 3 1 4 (y 1) (y 2) (y 3) (y 4) = 0 ∨ (y 1)^2 + 2 * a * y 2 = 0) ↔
         a = 2 ∨ a = 3 ∨ a = 4 ∨ a = 5 ∨ a = 7 ∨ a = 8 ∨ a = 9 ∨ a = 10) ∧
       (y 1 ≠ 0 ∨ y 2 ≠ 0) ∧ ((y 2 = 0 ∧ y 4 = 0) ↔ a = 10) := by
   decide +kernel
