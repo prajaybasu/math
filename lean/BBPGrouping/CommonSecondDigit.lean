@@ -375,6 +375,8 @@ theorem common_mod_p_sq_lift_iff (p : ℕ) [Fact p.Prime]
       (by simpa only [pow_one] using hF_taylor)
       (by simpa only [pow_one] using hG_taylor)
 
+local instance : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+
 /-- Worked example (`p = 17`, disc `a = 12` in the `(1, 0)` census):
 the two linear conditions `8 + 14 * u = 0` and `15 + 16 * u = 0` in `ZMod 17`
 each admit a solution (`u = 14` and `u = 15`), their obstruction determinant is
@@ -384,19 +386,16 @@ theorem witness_p17_each_solvable_no_common :
     (∃ u : ZMod 17, (15 : ZMod 17) + 16 * u = 0) ∧
     ((8 : ZMod 17) * 16 - 15 * 14 = 3) ∧
     ¬ ∃ u : ZMod 17, (8 : ZMod 17) + 14 * u = 0 ∧ (15 : ZMod 17) + 16 * u = 0 := by
-  haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   refine ⟨⟨14, by decide⟩, ⟨15, by decide⟩, by decide, ?_⟩
   rw [field_common_linear_root_iff]
   rintro ⟨hdet, _⟩
-  have hne : (8 : ZMod 17) * 16 ≠ 15 * 14 := by decide
-  exact hne hdet
+  exact (by decide : (8 : ZMod 17) * 16 ≠ 15 * 14) hdet
 
 /-- Worked `17`-adic application (`n = 2`, lifting mod `17^2` to mod `17^3`):
 any pair of integral local functions `F, G : ℤ_[17] → ℤ_[17]` vanishing mod `17^2`
 at `x` with reduced residues `(8, 15)` and reduced derivatives `(14, 16)` mod `17`
 has obstruction determinant `3 ≠ 0` and admits no common lift `x + 17^2 * u` mod `17^3`. -/
 theorem witness_p17_no_common_mod_17_cube_lift
-    [Fact (Nat.Prime 17)]
     (F G : ℤ_[17] → ℤ_[17]) (x cF cG dF dG : ℤ_[17])
     (hF0 : F x = (17 : ℤ_[17]) ^ 2 * cF)
     (hG0 : G x = (17 : ℤ_[17]) ^ 2 * cG)
