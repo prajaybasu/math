@@ -77,3 +77,5 @@ The same eight rational residue classes occur at the base-3 Wieferich prime 11. 
 The two Wolstenholme primes give a different degeneration of the depth-four determinant. [Six-prime result and reproducible Wolstenholme certificates](wolstenholme.md)
 
 A characteristic-zero elimination argument bounds the number of occupied residue discs at every auxiliary prime $p\ge7$ for $S=\{2,q\}$. [Uniform depth-four bound](uniform.md)
+
+For a set of $s$ primes, the refined disc bound extends to depth $2s$ using the polynomial localisation map. [Arbitrary finite sets of primes](finite-s.md)

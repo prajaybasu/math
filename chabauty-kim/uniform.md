@@ -56,3 +56,21 @@ Li–Lüdtke's Theorem 8.26 uses finite polylogarithms in an infinite-depth, ima
 Run `sage -python ordinary_check.py` from this directory. The script evaluates the actual depth-two equation and the $3,9$ anchor determinant for $S=\{2,3\}$ at seven ordinary primes. It checks containment of every disc with a rational common field root in the resultant zero set. It also checks a pair of exact equations at $p=17$ for which reducing the inputs first gives an identically zero resultant. Removing $17^2$ from the exact resultant gives a nonzero field constraint retaining the prescribed common zero. These examples test the elimination step. The asymptotic assertion follows from the proof above.
 
 Lean checks inverse translation and its compatibility with reduction, the specialization separating the quartic from the quadratic roots, and primitive reduction of an arbitrary nonzero $p$-adic multivariate resultant while preserving all integral common zeros and the monomial support bound. The application of the Coleman formulas, the passage from specialization to the generic degree-six resultant, the auxiliary-polynomial construction and asymptotic estimate, and the component comparison are given here as mathematical arguments. [Formal statements](../lean/BBPGrouping/UniformDiscBound.lean)
+
+## A sufficient rank estimate for a power saving
+
+For $t\ge1$ let $V_t$ be the space of polynomials in $X,y_1,\ldots,y_4$ of $X$-degree at most $t^2$ and total $y$-degree at most $t$. Consider the linear map
+$$J_{p,t}:V_t\longrightarrow\mathbb F_p[X]/(X^p),\qquad f\longmapsto f(X,\ell_1(X),\ldots,\ell_4(X))\bmod X^p.$$
+If there is a constant $c>0$ for which $J_{p,t}$ is injective at $t=\lfloor c p^{1/12}\rfloor$ for all sufficiently large primes, then the depth-four bound improves to $O(p^{11/12})$. Indeed injectivity gives precisely the nonvanishing of the first $W$-coefficient in the [counting proof](family.md#a-uniform-bound-on-the-number-of-candidate-discs). All the other dimension and multiplicity steps there hold for this $t$, with $t^2<p$. Their root count is at most $1+129p/t$. This criterion is sufficient and stronger than controlling only the polynomials that occur for Kim loci.
+
+There is room in the target for this conjectural estimate: the source has dimension $(t^2+1)\binom{t+4}{4}\sim t^6/24$, whereas the target has dimension $p$. Injectivity is impossible once the source exceeds $p$. Ghosh–Ward's Lemma 3 gives injectivity under the sufficient inequality $t^2 4^{4t}<p-1$. The question concerns the range beyond that inequality. [Ghosh–Ward, §3](https://arxiv.org/pdf/1210.1893)
+
+Run `sage -python mixed_rank.py` to compute the rank from the full truncated coefficient matrix. These are exact checks at three primes.
+
+| $p$ | $t$ | Source dimension | Rank |
+|---:|---:|---:|---:|
+| 101 | 2 | 75 | 75 |
+| 563 | 3 | 350 | 350 |
+| 1213 | 4 | 1190 | 1190 |
+
+The uniform injectivity estimate remains open in this argument.
