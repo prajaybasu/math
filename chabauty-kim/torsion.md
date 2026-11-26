@@ -58,6 +58,33 @@ def finite_li_at_i(p, i, m):
 
 Together with the reported search this excludes primitive fourth roots on the $(1,1)$ component throughout $7\le p<10^7$. For $p\equiv3\pmod4$ there are no fourth roots of order four in the residue field. The Euler-number specialization here is a written calculation using the Lean-checked Eulerian identity. Bounding the density of simultaneous Euler divisibilities would address just this order.
 
+
+### A second digit at the three weight-two exceptions
+
+Lift the displayed root $i$ to $i^2=-1\pmod{p^2}$ and put $q=p^2$. The weight-two unit moment
+$$
+M=\frac{1}{1-i}\sum_{1\le a<q,\ p\nmid a}i^a a^{-2}\pmod q
+$$
+has valuation exactly one at each of the three primes. In the order of the table, $M/p\bmod p$ is $85$, $103$ and $1795894$. Thus weight two alone excludes the fourth roots at these three primes when one uses a second digit. The passage to the Coleman value uses its prime-depleted measure formula: the integral of $x^{-2}$ over the units is $(1-p^{-2})\operatorname{Li}_2(i)$ for the measure with mass $i^a/(1-i^{p^r})$ on the class $a+p^r\mathbb Z_p$, $0\le a<p^r$. The displayed sum gives this moment modulo $q$ since $i^q=i$. Changing $i$ to $-i$ negates the moment by the substitution $a\mapsto q-a$. [Coleman, *Dilogarithms, regulators and p-adic L-functions*](https://www.digizeitschriften.de/download/pdf/356556735_0069/log29.pdf)
+
+To evaluate the second digit in $O(p)$ summands, write $a=u+pb$. For $0\le b<p$, the sum of $i^b$ is $1$ and the sum of $b i^b$ is $(p-1)(1-i)/2$. Using $(u+pb)^{-2}\equiv u^{-2}-2pb u^{-3}\pmod q$ gives the following calculation.
+
+```python
+def second_digit(p, i):
+    q = p * p
+    i = (i - p * ((i*i + 1) // p) * pow(2*i, -1, p)) % q
+    assert (i*i + 1) % q == 0
+    powers = (1, i, -1, -i)
+    correction = p * (p-1) * (1-i) % q
+    total = 0
+    for u in range(1, p):
+        h = pow(u, -1, q)
+        total += powers[u % 4] * (h*h % q) * (1 - correction*h % q)
+    moment = total * pow(1-i, -1, q) % q
+    assert moment % p == 0
+    return moment // p
+```
+
 ## Reproducible finite check
 
 In Sage the equivalent finite-polylogarithm gcd avoids constructing large integer Eulerian coefficients. This checks all 427 primes from 7 through 3000 and finds $G_p=1$ at each. This lies inside Lüdtke's published range.
