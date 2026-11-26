@@ -1,0 +1,16 @@
+{"F2prime_res": 766318, "F4_digit": 869281, "disc": 2, "excluded_mod": "p^4", "simple": true, "status": "excluded", "t0": 0, "vF4": 3}
+{"F2prime_res": 239685, "F4_digit": 717943, "disc": 2, "excluded_mod": "p^3", "simple": true, "status": "excluded", "t0": 889193, "vF4": 2}
+{"F2prime_res": 79895, "disc": 3, "point": "3", "simple": true, "status": "integral_point", "t0": 0, "vF4": null}
+{"F2prime_res": 926108, "F4_digit": 487217, "disc": 3, "excluded_mod": "p^2", "simple": true, "status": "excluded", "t0": 116810, "vF4": 1}
+{"F2prime_res": 79895, "disc": 9, "point": "9", "simple": true, "status": "integral_point", "t0": 0, "vF4": null}
+{"F2prime_res": 926108, "F4_digit": 400261, "disc": 9, "excluded_mod": "p^2", "simple": true, "status": "excluded", "t0": 395717, "vF4": 1}
+{"F2prime_res": 573896, "F4_digit": 883511, "disc": 335334, "excluded_mod": "p^5", "simple": true, "status": "excluded", "t0": 0, "vF4": 4}
+{"F2prime_res": 432107, "F4_digit": 785049, "disc": 335334, "excluded_mod": "p^2", "simple": true, "status": "excluded", "t0": 514922, "vF4": 1}
+{"F2prime_res": 719055, "F4_digit": 862722, "disc": 670669, "excluded_mod": "p^5", "simple": true, "status": "excluded", "t0": 0, "vF4": 4}
+{"F2prime_res": 286948, "F4_digit": 600268, "disc": 670669, "excluded_mod": "p^2", "simple": true, "status": "excluded", "t0": 631732, "vF4": 1}
+{"F2prime_res": 435477, "F4_digit": 611928, "disc": 894225, "excluded_mod": "p^5", "simple": true, "status": "excluded", "t0": 0, "vF4": 4}
+{"F2prime_res": 570526, "F4_digit": 3751, "disc": 894225, "excluded_mod": "p^2", "simple": true, "status": "excluded", "t0": 514922, "vF4": 1}
+{"F2prime_res": 846213, "disc": 1006000, "point": "-3", "simple": true, "status": "integral_point", "t0": 0, "vF4": null}
+{"F2prime_res": 159790, "F4_digit": 404466, "disc": 1006000, "excluded_mod": "p^2", "simple": true, "status": "excluded", "t0": 538763, "vF4": 1}
+{"F2prime_res": 766318, "disc": 1006002, "point": "-1", "simple": true, "status": "integral_point", "t0": 0, "vF4": null}
+{"F2prime_res": 239685, "F4_digit": 67191, "disc": 1006002, "excluded_mod": "p^2", "simple": true, "status": "excluded", "t0": 889193, "vF4": 1}

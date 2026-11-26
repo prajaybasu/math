@@ -1,4 +1,8 @@
-# Prime-power grouping for π digit extraction
+# Computational number theory
+
+The [depth-four Chabauty–Kim certificate](chabauty-kim/README.md) computes both refined components for the thrice-punctured line over $\mathbb Z[1/6]$ at the base-3 Wieferich prime $p=1{,}006{,}003$. It includes the sieve, the root table and reproduction instructions.
+
+## Prime-power grouping for π digit extraction
 
 Extract an arbitrary window of binary or hex digits of $\pi$ without computing the preceding digits. Termwise BBP and Bellard extraction run one modular exponentiation per denominator, $\Theta(n)$ of them; Smith's $(M,3M)$ pairing reduces the constant. Splitting every denominator into prime powers (fractional CRT) and collapsing the $k$-dependent powers of 2 with Euler's criterion leaves one common exponentiation per prime power: $O(n/\log n)$ exponentiations. Total word work is still $O(n \log\log n)$ (sieve and coefficient preparation), in $O(\sqrt{n})$ memory.
 
