@@ -27,6 +27,37 @@ $$
 $$
 would suffice, since each exceptional prime contributes at least one. The existing per-prime power saving bounds the size of a possible exception, and supplies no estimate of this average tending to zero. The distribution of these split common factors across primes and the separate $(1,0)$ component remain open in this argument.
 
+## The factor for primitive fourth roots
+
+Fix $p\equiv1\pmod4$, $p\ge 7$, and $i\in\mathbb F_p$ with $i^2=-1$. Use signed Euler numbers $E_n$ given by $1/\cosh t=\sum_n E_n t^n/n!$. For $m=2,4$ put $n=p-1-m$. Then
+$$
+\ell_m(i)=(1-i)\frac{i}{2} E_n\pmod p.
+$$
+To obtain the coefficient, work first over $\mathbb Q(\mathrm i)$ with $\mathrm i^2=-1$. The $n$th derivative at zero of $1/(1-\mathrm i e^t)$ is $B_n(\mathrm i)/(1-\mathrm i)^{n+1}$ by the Euler recurrence above. Rewriting the same series as
+$$
+\frac{1-\tanh t}{2}+\frac{\mathrm i}{2\cosh t}
+$$
+shows that its positive even derivatives are $\mathrm i E_n/2$. This equality of elements of $\mathbb Z[\mathrm i,1/2]$ reduces at either choice of $i$. The cleared finite-polylogarithm identity supplies the remaining factor $1-i^p=1-i$.
+
+Consequently $X^2+1$ divides $G_p$ exactly when $p$ divides both $E_{p-3}$ and $E_{p-5}$. This also explains why failure of the weight-two test at an Euler-irregular index can be resolved by weight four.
+
+Meštrović reports an exhaustive weight-two search below $10^7$ with three exceptions. Direct finite sums at these primes give the following residues. Anyone can reproduce each column using the expression below. [Meštrović, Table 1 and introduction](https://arxiv.org/abs/1212.3602)
+
+| $p$ | $i$ | $\ell_2(i)$ | $\ell_4(i)$ |
+|---:|---:|---:|---:|
+| 149 | 44 | 0 | 143 |
+| 241 | 64 | 0 | 105 |
+| 2946901 | 722077 | 0 | 1422053 |
+
+```python
+def finite_li_at_i(p, i, m):
+    assert i * i % p == p - 1
+    powers = (1, i, -1, -i)
+    return sum(powers[j % 4] * pow(j, -m, p) for j in range(1, p)) % p
+```
+
+Together with the reported search this excludes primitive fourth roots on the $(1,1)$ component throughout $7\le p<10^7$. For $p\equiv3\pmod4$ there are no fourth roots of order four in the residue field. The Euler-number specialization here is a written calculation using the Lean-checked Eulerian identity. Bounding the density of simultaneous Euler divisibilities would address just this order.
+
 ## Reproducible finite check
 
 In Sage the equivalent finite-polylogarithm gcd avoids constructing large integer Eulerian coefficients. This checks all 427 primes from 7 through 3000 and finds $G_p=1$ at each. This lies inside Lüdtke's published range.
