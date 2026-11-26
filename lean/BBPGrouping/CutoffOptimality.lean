@@ -259,18 +259,26 @@ theorem gaussian_prime_elim (S : Finset ℤ) (e : ℤ → ℤ) (hrel : IsGaussia
     exact hR hmap.symm
 
 /-- **Unconditional base case (`M ≤ 10`):** No nontrivial Gaussian relation exists
-among `{9+i, 7+i, 8+i, 4+i}` (the reduced generators at levels `M ≤ 10`). -/
+among `{9+i, 16+i, 7+i, 8+i, 4+i}` (all five reduced generators at levels `M ≤ 10`). -/
 theorem base_case_le_10 (e : ℤ → ℤ)
-    (hrel : IsGaussianRel ({9, 7, 8, 4} : Finset ℤ) e) :
-    e 9 = 0 ∧ e 7 = 0 ∧ e 8 = 0 ∧ e 4 = 0 := by
+    (hrel : IsGaussianRel ({9, 16, 7, 8, 4} : Finset ℤ) e) :
+    e 9 = 0 ∧ e 16 = 0 ∧ e 7 = 0 ∧ e 8 = 0 ∧ e 4 = 0 := by
   have h9 : e 9 = 0 := by
-    apply gaussian_prime_elim {9, 7, 8, 4} e hrel 9 (by decide) 41 (by decide) (by decide)
+    apply gaussian_prime_elim {9, 16, 7, 8, 4} e hrel 9 (by decide) 41 (by decide) (by decide)
+    · norm_num [gNorm]
+    · intro a ha hne
+      fin_cases ha <;> simp_all [gNorm]
+  have hrel4 : IsGaussianRel ({16, 7, 8, 4} : Finset ℤ) e := by
+    have h := hrel.erase_zero (by decide : (9 : ℤ) ∈ ({9, 16, 7, 8, 4} : Finset ℤ)) h9
+    simpa [show ({9, 16, 7, 8, 4} : Finset ℤ).erase 9 = {16, 7, 8, 4} by decide] using h
+  have h16 : e 16 = 0 := by
+    apply gaussian_prime_elim {16, 7, 8, 4} e hrel4 16 (by decide) 257 (by norm_num) (by decide)
     · norm_num [gNorm]
     · intro a ha hne
       fin_cases ha <;> simp_all [gNorm]
   have hrel3 : IsGaussianRel ({7, 8, 4} : Finset ℤ) e := by
-    have h := hrel.erase_zero (by decide : (9 : ℤ) ∈ ({9, 7, 8, 4} : Finset ℤ)) h9
-    simpa [show ({9, 7, 8, 4} : Finset ℤ).erase 9 = {7, 8, 4} by decide] using h
+    have h := hrel4.erase_zero (by decide : (16 : ℤ) ∈ ({16, 7, 8, 4} : Finset ℤ)) h16
+    simpa [show ({16, 7, 8, 4} : Finset ℤ).erase 16 = {7, 8, 4} by decide] using h
   have h4 : e 4 = 0 := by
     apply gaussian_prime_elim {7, 8, 4} e hrel3 4 (by decide) 17 (by decide) (by decide)
     · norm_num [gNorm]
@@ -292,7 +300,7 @@ theorem base_case_le_10 (e : ℤ → ℤ)
     · norm_num [gNorm]
     · intro a ha hne
       fin_cases ha; exact absurd rfl hne
-  exact ⟨h9, h7, h8, h4⟩
+  exact ⟨h9, h16, h7, h8, h4⟩
 
 /-- The reduced `< 2/3` generator family indexed by its cyclotomic level `M`:
 - `evenPow k` (`k ≥ 1`): `a = 2^(2k)`, level `4k`
@@ -334,5 +342,167 @@ theorem reducedGen_norm_dvd (a : ℤ) (M : ℕ) (h : IsReducedGen a M)
       exact_mod_cast aurifeuillean_prod m
     rw [← hprod]
     exact dvd_mul_of_dvd_right hM _
+
+/-- Zsigmondy's theorem (1892) for `2^(4k) + 1` (`k ≥ 3`): there is an odd prime
+dividing `2^(4k) + 1` that divides no `2^M + 1` with `M < 4k`. -/
+def ZsigmondyFourK : Prop :=
+  ∀ k ≥ 3, ∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧
+    (p : ℤ) ∣ (2 : ℤ) ^ (4 * k) + 1 ∧
+    ∀ M < 4 * k, ¬ (p : ℤ) ∣ (2 : ℤ) ^ M + 1
+
+/-- Schinzel's theorem (1962, Theorem 2) for the Aurifeuillean factors of
+`2^(4m+2) + 1 = L_m * M_m` (`m ≥ 3`): both `L_m` and `M_m` have odd prime
+divisors that divide no `2^M + 1` with `M < 4m + 2`. -/
+def SchinzelAuri : Prop :=
+  ∀ m ≥ 3,
+    (∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ p ∣ auriL m ∧
+      ∀ M < 4 * m + 2, ¬ (p : ℤ) ∣ (2 : ℤ) ^ M + 1) ∧
+    (∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ q ∣ auriM m ∧
+      ∀ M < 4 * m + 2, ¬ (q : ℤ) ∣ (2 : ℤ) ^ M + 1)
+
+private theorem reducedGen_le_10_mem {a : ℤ} {M : ℕ} (h : IsReducedGen a M) (hM : M ≤ 10) :
+    a ∈ ({9, 16, 7, 8, 4} : Finset ℤ) := by
+  rcases h with ⟨k, hk, rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨m, hm, rfl, rfl | rfl⟩
+  · have : k = 1 ∨ k = 2 := by omega
+    rcases this with rfl | rfl <;> decide
+  · decide
+  · have : m = 2 := by omega
+    subst this; decide
+  · have : m = 2 := by omega
+    subst this; decide
+
+private theorem isGaussianRel_subset_extend {S T : Finset ℤ} {e : ℤ → ℤ}
+    (hST : S ⊆ T) (hrel : IsGaussianRel S e) :
+    IsGaussianRel T (fun a => if a ∈ S then e a else 0) := by
+  unfold IsGaussianRel at hrel ⊢
+  have hL : (∏ a ∈ T, if 0 ≤ (if a ∈ S then e a else 0) then
+        gGen a ^ (if a ∈ S then e a else 0).toNat
+      else gGenConj a ^ (-(if a ∈ S then e a else 0)).toNat) =
+      ∏ a ∈ S, if 0 ≤ e a then gGen a ^ (e a).toNat else gGenConj a ^ (-e a).toNat := by
+    rw [← Finset.prod_subset hST]
+    · refine Finset.prod_congr rfl fun a ha => ?_
+      simp [ha]
+    · intro a _ haS
+      simp [haS]
+  have hR : (∏ a ∈ T, if 0 ≤ (if a ∈ S then e a else 0) then
+        gGenConj a ^ (if a ∈ S then e a else 0).toNat
+      else gGen a ^ (-(if a ∈ S then e a else 0)).toNat) =
+      ∏ a ∈ S, if 0 ≤ e a then gGenConj a ^ (e a).toNat else gGen a ^ (-e a).toNat := by
+    rw [← Finset.prod_subset hST]
+    · refine Finset.prod_congr rfl fun a ha => ?_
+      simp [ha]
+    · intro a _ haS
+      simp [haS]
+  rw [hL, hR, hrel]
+
+private theorem reducedGen_eq_of_level_four_mul {a : ℤ} {k : ℕ}
+    (h : IsReducedGen a (4 * k)) : a = (2 : ℤ) ^ (2 * k) := by
+  rcases h with ⟨k', _, hk, rfl⟩ | ⟨h6, _⟩ | ⟨m, _, hm, _⟩
+  · have : k' = k := by omega
+    subst this; rfl
+  · omega
+  · omega
+
+private theorem reducedGen_eq_of_level_auri {a : ℤ} {m : ℕ} (hm : 2 ≤ m)
+    (h : IsReducedGen a (4 * m + 2)) :
+    a = (2 : ℤ) ^ (m + 1) - 1 ∨ a = (2 : ℤ) ^ (m + 1) + 1 := by
+  rcases h with ⟨k', _, hk, _⟩ | ⟨h6, _⟩ | ⟨m', _, hm', ha⟩
+  · omega
+  · omega
+  · have : m' = m := by omega
+    subst this; exact ha
+
+private theorem not_dvd_two_mul_of_coprime {p x y : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (hcop : Nat.Coprime x y) (hpx : p ∣ x) : ¬ (p : ℤ) ∣ 2 * (y : ℤ) := by
+  intro hdvd
+  have hcop2 : IsCoprime (p : ℤ) 2 := by
+    have hc : Nat.Coprime p 2 := hp.coprime_iff_not_dvd.mpr (by
+      intro h2; exact hp2 (le_antisymm (Nat.le_of_dvd (by norm_num) h2) hp.two_le))
+    exact_mod_cast hc.isCoprime
+  have hpy_int : (p : ℤ) ∣ (y : ℤ) := hcop2.dvd_of_dvd_mul_left hdvd
+  have hpy : p ∣ y := Int.ofNat_dvd.mp hpy_int
+  have h1 : p ∣ Nat.gcd x y := Nat.dvd_gcd hpx hpy
+  rw [hcop.gcd_eq_one] at h1
+  exact hp.not_dvd_one h1
+
+/-- **Full inductive Theorem 1 (Step 4):** Given Zsigmondy (1892) for `2^(4k)+1`
+and Schinzel (1962) for the Aurifeuillean factors `L_m, M_m` (`m ≥ 3`), every
+Gaussian relation on any finite subset `S` of the reduced `< 2/3` generator set
+has all exponents equal to zero. -/
+theorem quantitative_bbg_reduced (hZ : ZsigmondyFourK) (hS : SchinzelAuri)
+    (S : Finset ℤ) (level : ℤ → ℕ) (hgen : ∀ a ∈ S, IsReducedGen a (level a))
+    (e : ℤ → ℤ) (hrel : IsGaussianRel S e) :
+    ∀ a ∈ S, e a = 0 := by
+  classical
+  induction hcard : S.card using Nat.strong_induction_on generalizing S with
+  | ind n ih =>
+    rcases S.eq_empty_or_nonempty with rfl | hne
+    · intro a ha; exact absurd ha (Finset.notMem_empty a)
+    · obtain ⟨a₀, ha₀, hmax⟩ := Finset.exists_max_image S level hne
+      by_cases hle10 : level a₀ ≤ 10
+      · have hsub : S ⊆ ({9, 16, 7, 8, 4} : Finset ℤ) :=
+          fun a ha => reducedGen_le_10_mem (hgen a ha) (le_trans (hmax a ha) hle10)
+        have hrel' := isGaussianRel_subset_extend hsub hrel
+        have ⟨h9, h16, h7, h8, h4⟩ := base_case_le_10 _ hrel'
+        intro a ha
+        have hmem := hsub ha
+        fin_cases hmem <;> simp_all
+      · have hgt10 : 10 < level a₀ := by omega
+        have he0 : e a₀ = 0 := by
+          rcases hgen a₀ ha₀ with ⟨k, hk, hlev, ha0eq⟩ | ⟨hlev, _⟩ | ⟨m, hm, hlev, ha0eq⟩
+          · have hk3 : 3 ≤ k := by omega
+            obtain ⟨p, hp, hp2, hdiv, hprim⟩ := hZ k hk3
+            apply gaussian_prime_elim S e hrel a₀ ha₀ p hp hp2
+            · have hsq : ((2 : ℤ) ^ (2 * k)) ^ 2 = (2 : ℤ) ^ (4 * k) := by
+                rw [← pow_mul]; ring_nf
+              simpa [ha0eq, gNorm, hsq] using hdiv
+            · intro a ha hne_a hdvd_a
+              have hlt : level a < 4 * k := by
+                have hle : level a ≤ 4 * k := hlev ▸ hmax a ha
+                rcases eq_or_lt_of_le hle with heq | hlt
+                · exfalso
+                  have := reducedGen_eq_of_level_four_mul (heq ▸ hgen a ha)
+                  exact hne_a (this.trans ha0eq.symm)
+                · exact hlt
+              exact hprim (level a) hlt
+                (reducedGen_norm_dvd a (level a) (hgen a ha) p hp hp2 hdvd_a)
+          · omega
+          · have hm3 : 3 ≤ m := by omega
+            rcases ha0eq with ha0eq | ha0eq
+            · obtain ⟨⟨p, hp, hp2, hdivL, hprim⟩, _⟩ := hS m hm3
+              apply gaussian_prime_elim S e hrel a₀ ha₀ p hp hp2
+              · rw [ha0eq, auriL_norm]
+                exact dvd_mul_of_dvd_right (Int.ofNat_dvd.mpr hdivL) 2
+              · intro a ha hne_a hdvd_a
+                have hle : level a ≤ 4 * m + 2 := hlev ▸ hmax a ha
+                rcases eq_or_lt_of_le hle with heq | hlt
+                · rcases reducedGen_eq_of_level_auri hm (heq ▸ hgen a ha) with h1 | h2
+                  · exact hne_a (h1.trans ha0eq.symm)
+                  · rw [h2, auriM_norm] at hdvd_a
+                    exact not_dvd_two_mul_of_coprime hp hp2 (aurifeuillean_coprime m) hdivL hdvd_a
+                · exact hprim (level a) hlt
+                    (reducedGen_norm_dvd a (level a) (hgen a ha) p hp hp2 hdvd_a)
+            · obtain ⟨_, ⟨q, hq, hq2, hdivM, hprim⟩⟩ := hS m hm3
+              apply gaussian_prime_elim S e hrel a₀ ha₀ q hq hq2
+              · rw [ha0eq, auriM_norm]
+                exact dvd_mul_of_dvd_right (Int.ofNat_dvd.mpr hdivM) 2
+              · intro a ha hne_a hdvd_a
+                have hle : level a ≤ 4 * m + 2 := hlev ▸ hmax a ha
+                rcases eq_or_lt_of_le hle with heq | hlt
+                · rcases reducedGen_eq_of_level_auri hm (heq ▸ hgen a ha) with h1 | h2
+                  · rw [h1, auriL_norm] at hdvd_a
+                    exact not_dvd_two_mul_of_coprime hq hq2
+                      (aurifeuillean_coprime m).symm hdivM hdvd_a
+                  · exact hne_a (h2.trans ha0eq.symm)
+                · exact hprim (level a) hlt
+                    (reducedGen_norm_dvd a (level a) (hgen a ha) q hq hq2 hdvd_a)
+        have hcard_lt : (S.erase a₀).card < n := by
+          rw [← hcard]; exact Finset.card_erase_lt_of_mem ha₀
+        have hsub_ih := ih (S.erase a₀).card hcard_lt (S.erase a₀)
+          (fun a ha => hgen a (Finset.mem_of_mem_erase ha)) (hrel.erase_zero ha₀ he0) rfl
+        intro a ha
+        by_cases h : a = a₀
+        · exact h ▸ he0
+        · exact hsub_ih a (Finset.mem_erase.mpr ⟨h, ha⟩)
 
 end BBPGrouping

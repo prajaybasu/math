@@ -45,8 +45,9 @@ The private lemma `crt_over_finset` extends fractional CRT to any finite set of 
 | `BBPGrouping.aurifeuillean_gaussian_identity` | $((2^r+1)+i)((2^r-1)-i) = 2(2^{2r-1}-i)$ for all $r \ge 1$. |
 | `BBPGrouping.aurifeuillean_prod`, `aurifeuillean_coprime` | $L_m M_m = 2^{4m+2}+1$ and $\gcd(L_m, M_m) = 1$ for all $m$. |
 | `BBPGrouping.gaussian_prime_elim` | If an odd prime $p$ divides $a_0^2+1$ and no other $a^2+1$ in $S$, then any Gaussian relation on $S$ has exponent $e(a_0) = 0$. |
-| `BBPGrouping.base_case_le_10` | Unconditional elimination of all reduced generators at levels $M \le 10$ ($\{9+i, 7+i, 8+i, 4+i\}$ via primes $41, 17, 13, 5$). |
+| `BBPGrouping.base_case_le_10` | Unconditional elimination of all five reduced generators at levels $M \le 10$ ($\{9+i, 16+i, 7+i, 8+i, 4+i\}$ via primes $41, 257, 17, 13, 5$). |
 | `BBPGrouping.reducedGen_norm_dvd` | Every reduced `< 2/3` generator at level $M$ has odd norm dividing $2^M + 1$. |
+| `BBPGrouping.quantitative_bbg_reduced` | Full induction (Step 4): assuming `ZsigmondyFourK` and `SchinzelAuri` as explicit hypotheses, every Gaussian relation on any finite subset of the reduced `< 2/3` generators is identically zero. |
 
 ## Kernel and axiom checks
 
