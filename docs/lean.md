@@ -51,12 +51,15 @@ The private lemma `crt_over_finset` extends fractional CRT to any finite set of 
 
 ## Exceptional-prime (Mirimanoff) depth-4 Chabauty–Kim sieve
 
-[MirimanoffSieve.lean](../lean/BBPGrouping/MirimanoffSieve.lean)
+[MirimanoffSieve.lean](../lean/BBPGrouping/MirimanoffSieve.lean) · [MirimanoffLocalExpansion.lean](../lean/BBPGrouping/MirimanoffLocalExpansion.lean)
 
 | Lean name | Statement |
 | --- | --- |
 | `BBPGrouping.mirimanoff_sieve_sound` | Over `ℤ_[p]` (`p ≠ 2`), every common $p$-adic root of the depth-4 Kim functions at a base-3 Wieferich prime satisfies one of the three finite-field sieve tests (unresolved singular `c1 = c2 = 0`, log-zero branch, or `Li₁`-zero branch). |
 | `BBPGrouping.one_one_sieve_sound` | On the `(1, 1)` component (`L = 0`), any common root of $p^2 Y_2 = 0$ and $p^4 Y_4 = 0$ satisfies $c_2 = c_4 = 0 \pmod p$. |
+| `BBPGrouping.local_tail_summable`, `local_tail_norm_le_inv_p` | For prime $p \ge 7$ and $m \le 4$, the local expansion tail $\sum_{k \ge 1} b_k \frac{p^k}{(k+m)!} L^{k+m}$ is uniformly summable in `ℚ_[p]` with ultrametric norm $\le p^{-1}$ for all $L \in \mathbb{Z}_p$. |
+| `BBPGrouping.local_expansion_toZMod_Y1`..`Y4` | Derives `hY1–hY4` from the Coleman local power-series expansions in $L = \log_p(z)/p \in \mathbb{Z}_p$. |
+| `BBPGrouping.mirimanoff_sieve_from_local_expansion` | End-to-end theorem combining `local_expansion_toZMod_Y1`..`Y4` with `mirimanoff_sieve_sound` (with the Coleman local expansions stated as explicit hypotheses). |
 
 ## Kernel and axiom checks
 
