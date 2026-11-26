@@ -1,8 +1,13 @@
 # Occupied residue discs for a finite set of primes
 
-Let $X=\mathbb P^1-\{0,1,\infty\}$ and let $S$ be a finite set of rational primes. Write $s=|S|\ge1$. At depth $n=2s$ the number of residue discs occupied by the full refined Chabauty–Kim locus of $X$ is
-$$O_s(p/\log p)$$
-for auxiliary primes $p\notin S$. The constant depends only on $s$. For example $S=\{2,3,5\}$ has depth six in this statement. Exact determination of the points at that depth is a separate problem.
+**Theorem 1.1.** Let $X=\mathbb P^1-\{0,1,\infty\}$ over $\mathbb Q$, and let $S$ be a set of $s\ge1$ rational primes. For every auxiliary prime $p\notin S$, each of the following loci occupies $O_s(p/\log p)$ residue discs in $X(\mathbb Z_p)$:
+
+* the full refined Chabauty–Kim locus at depth $2s$;
+* the full unrefined Chabauty–Kim locus at depth $4s$.
+
+The implied constants depend only on $s$. For instance, the refined bound applies to $S=\{2,3,5\}$ at depth six. It bounds how many residues can occur as reductions of local points. Exact determination of the points is a further question.
+
+For $S=\varnothing$ the refined locus is empty. In the unrefined case the published depth-one result already bounds the locus by the two primitive sixth roots of unity. This treats the empty set at positive depth. [Betts–Kumpitsch–Lüdtke, Remark 5.21](https://arxiv.org/pdf/2305.09462#page=45)
 
 ## The polynomial map
 
@@ -33,13 +38,19 @@ Choose $A=r=t^2$, $B=bt$ with a fixed integer $b>3nd+h+1$. Look for a polynomial
 $$(E+1)(N_t-N_{t-d})+hN_{t-d}\le (3ndt+h)N_t.$$
 Indeed $E+1\le3t^2$ eventually, and $N_t-N_{t-d}\le dn N_t/(t+1)$ by telescoping. All $r$ conditions together cost fewer than the $(A+1)(B+1)N_t$ input coefficients, so a nonzero auxiliary polynomial exists.
 
-Take $t=\lfloor\log p/(2n\log 4)\rfloor$. For sufficiently large $p$ we have $t^2 4^{nt}<p-1$. In the first nonzero $W$-coefficient the $X$-degree is at most $t^2$ and the weighted $y$-degree is at most $nt$. Ghosh–Ward's mixed nonvanishing lemma shows that evaluation at $y=\ell(X)$ has order less than $p$ at zero (immediate by degree when this coefficient is independent of $y$). Higher $W$-coefficients cannot cancel it after $W=X^p$. The resulting nonzero univariate polynomial has degree at most $t^2+pbt+(p-1)t$. At each candidate residue $a\ne0,1$, all scaled derivatives through order $r-1$ vanish since $a^p=a$. Because $r<p$ and $a(1-a)\ne0$, the multiplicity is at least $r$. Degree divided by multiplicity gives $O_{n,h,d}(p/\log p)$ candidates. [Ghosh–Ward, §3, Lemma 3](https://arxiv.org/pdf/1210.1893)
+In §3, Lemma 3 of the arXiv version, Ghosh and Ward use $a(f)=\deg_X f$ and $c(f)=\max\sum_{i=1}^n i e_i$, where the maximum is over the $y$-exponent vectors of its nonzero monomials. Their stated hypotheses are $\max\{a(f),1\}4^{c(f)}<p-1$ and $0<\max_i\deg_{y_i} f<p$. Their conclusion gives $X^p\nmid f(X,\ell_1(X),\ldots,\ell_n(X))$. The base $4$ is independent of $n$. [Ghosh–Ward, arXiv v1, p. 7](https://arxiv.org/pdf/1210.1893v1#page=7)
 
-Summing over the refinements multiplies the constant by at most $3^s$. The full locus maps into the polylogarithmic locus. Small auxiliary primes, including those with $p\le n+1$, are absorbed using at most $p-2$ discs. The empty $S$ case of the refined statement is vacuous by the local obstruction at two. [Betts–Kumpitsch–Lüdtke, §4](https://arxiv.org/pdf/2305.09462)
+For the induction in that proof, use $M(a)=\max\{a,2\}$. The displayed estimate on p. 9 uses $(3a+2)/4\le\max\{a,1\}$, which fails at $a=1$. Their descent gives a nonzero polynomial with $a'\le 3a+2$ and $c'\le c-1$. Hence
+$$M(a')\le4M(a),\qquad M(a')4^{c'}\le M(a)4^c.$$
+Under $M(a)4^c<p-1$ every descent step satisfies the size hypothesis, the positive individual $y$-degrees are less than $p$ because they are bounded by $c$, and at weight zero the nonzero polynomial in $X$ has degree less than $p$. This verifies the numerical induction using the descent of Lemma 3. [Ghosh–Ward, arXiv v1, pp. 8–9](https://arxiv.org/pdf/1210.1893v1#page=8) · [Lean size estimates](../lean/BBPGrouping/SelmerDiscBound.lean)
+
+Take $t=\lfloor\log p/(2n\log 4)\rfloor$. For sufficiently large $p$ we have $t\ge2$. In the first nonzero $W$-coefficient $f$, $M(a(f))\le t^2$, $c(f)\le nt$ and $\max_i\deg_{y_i}f\le t<p$. The floor gives $4^{2nt}\le p$. Since $t^2+2\le4^t\le4^{nt}$, we have $t^2 4^{nt}<p-1$, even with the strict cutoff. The strengthened size hypothesis therefore holds. For $f$ independent of the $y_i$, use $\deg_X f\le t^2<p$ directly. The first coefficient has order less than $p$ after substitution, so higher powers of $W=X^p$ cannot cancel it. The resulting nonzero univariate polynomial has degree at most $t^2+pbt+(p-1)t$. At each candidate residue $a\ne0,1$, all scaled derivatives through order $r-1$ vanish since $a^p=a$. Because $r<p$ and $a(1-a)\ne0$, the multiplicity is at least $r$. Degree divided by multiplicity gives $O_{n,h,d}(p/\log p)$ candidates. [Ghosh–Ward, §3, Lemma 3](https://arxiv.org/pdf/1210.1893)
+
+Summing over the refinements multiplies the constant by at most $3^s$. The full locus maps into the polylogarithmic locus. Small auxiliary primes, including those with $p\le n+1$, are absorbed using at most $p-2$ discs. [Betts–Kumpitsch–Lüdtke, §4](https://arxiv.org/pdf/2305.09462)
 
 The same proof bounds the **unrefined** full locus at depth $n=4s$ for $s\ge1$. The unrestricted polylogarithmic parameter count becomes $2s+(2s-1)=n-1$. There is one parametrisation and no sum over refinements. Both conclusions bound residue discs at fixed depth. Neither requires explicit period values or a period nonvanishing conjecture.
 
-## An affine genus-two consequence
+## Corollary 1.2. An affine genus-two consequence
 
 Let $C$ be the smooth projective model of $y^2=x^5-x$, and take $U$ to be the inverse image of $X$ under its hyperelliptic projection $x$. This deletes the three points over $0,1,\infty$. The six branch points of the double cover are distinct in every odd characteristic, so $C$ has genus two and good reduction away from two. The map $U\to X$ is finite of degree two over $\mathbb Z[1/2]$. The point $(-1,0)$ and its image provide compatible integral base points.
 
@@ -47,8 +58,22 @@ Take $S=\{2\}$ and any odd $p$. The morphism sends the full refined depth-two lo
 
 A separate prior result for smooth projective curves applies when a Jacobian quotient of dimension at least two has rank zero and finite Tate–Shafarevich group and the curve has a rational base point. A fixed finite subscheme already contains the depth-one locus at good primes, giving a uniform constant bound in that setting. [Betts–Kumpitsch–Lüdtke, §5.7](https://arxiv.org/pdf/2305.09462)
 
+## Theorem 1.3. The leading depth-four cofactor
+
+For $S=\{2,3\}$, write $k=\log_p(2)/p$ and let $A$ be the normalised $\operatorname{Li}_4$ cofactor of the determinant anchored at $3,9$, with the row order and scaling specified in the proof. Then $9A\equiv52kB_{p-3}\pmod p$ for $p\ge7$. For $p\ne13$ the two causes of its vanishing are the base-two Wieferich congruence and divisibility of the numerator of $B_{p-3}$ by $p$. At $13$ the scalar $52$ vanishes. The base-three Wieferich case affects the valuation of $\log_p(3)$ in the equations. [Cofactor and Bernoulli calculation](wolstenholme.md) · [Base-three valuation analysis](family.md)
+
+## Theorem 1.4. Six exceptional auxiliary primes
+
+For $S=\{2,3\}$, the full refined depth-four locus equals the 21 points of $X(\mathbb Z[1/6])$ at each of $11,1093,3511,16843,1006003,2124679$. Lüdtke's published range covers the first three. The certificates for $16843,1006003,2124679$ extend this conclusion to those three primes beyond that range. [Lüdtke, Theorem 1.2](https://arxiv.org/abs/2402.03573) · [Wolstenholme certificates](wolstenholme.md) · [Certificate for 1006003](README.md)
+
+## A sufficient condition for a power saving
+
+For the four-weight test with $S=\{2,q\}$, injectivity of the truncated substitution map $J_{p,t}$ at $t=\lfloor c p^{1/12}\rfloor$ for some fixed $c>0$ and all sufficiently large primes would give $O(p^{11/12})$ occupied discs. The present implication is one-way. Exact ranks at three primes test the criterion. [Conditional proposition and rank data](uniform.md#a-sufficient-rank-estimate-for-a-power-saving)
+
 ## Verification and related work
 
-Lean checks the bounded-degree polynomial relation over any field, including the dimension comparison, and checks the primitive finite-field relation for integral image points at every prime. The Selmer parametrisation, Besser's reduction, their application to the polynomial map above, and the mixed finite-polylogarithm count enter the arithmetic conclusion through the written proof.
+Lean checks the bounded-degree polynomial relation over any field, including the dimension comparison, and the primitive finite-field relation for integral image points at every prime. It also checks the numerical induction and strict degree cutoff used with Ghosh–Ward’s lemma. The Selmer parametrisation, Besser's reduction, their application to the polynomial map above, and the mixed finite-polylogarithm count enter the arithmetic conclusion through the written proof.
 
 Elimination for motivic Kim functions at general $S$ is prior work. The present use of elimination is after specialising the localisation map at $p$ and adjoining a residue coordinate. Its output is a bound on the number of occupied discs. [Polylogarithmic motivic Chabauty–Kim and resultants](https://arxiv.org/abs/2408.07400)
+
+Li–Lüdtke use finite polylogarithms to constrain pairs of roots of unity over imaginary quadratic fields in infinite depth under their stated hypotheses. Leonhardt–Rendell compute de Rham bases and Hodge filtrations from modular forms for quadratic Chabauty, including an explicit computation on the nonsplit Cartan modular curve of level 13. These results provide context for the finite-polylogarithm reduction and for higher-genus computations, respectively. [Li–Lüdtke, Theorem 8.26](https://arxiv.org/html/2608.20615v1#S8) · [Leonhardt–Rendell, §§4 and 6](https://arxiv.org/html/2610.30703v1#S4)

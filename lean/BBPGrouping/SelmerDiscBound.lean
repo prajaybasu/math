@@ -99,4 +99,36 @@ theorem reduced_image_relation (p : ℕ) [Fact p.Prime] (n D : ℕ)
   rw [hz, map_zero] at e
   simpa only [aeval_eq_eval, hu] using e.symm
 
+/-- Numerical induction bound for the Ghosh–Ward descent. The floor of two
+covers the transition from X-degree one to degree at most five. -/
+theorem descent_size {a a' c c' : ℕ} (ha : a' ≤ 3 * a + 2) (hc : c' + 1 ≤ c) :
+    max a' 2 * 4 ^ c' ≤ max a 2 * 4 ^ c := by
+  have hA : max a' 2 ≤ max a 2 * 4 := by omega
+  calc
+    _ ≤ (max a 2 * 4) * 4 ^ c' := Nat.mul_le_mul_right _ hA
+    _ = max a 2 * 4 ^ (c' + 1) := by rw [pow_succ]; ring
+    _ ≤ _ := Nat.mul_le_mul_left _ (Nat.pow_le_pow_right (by decide) hc)
+
+private theorem square_slack (t : ℕ) (ht : 2 ≤ t) : t ^ 2 + 2 ≤ 4 ^ t := by
+  induction t, ht using Nat.le_induction with
+  | base => decide
+  | succ t ht ih =>
+    rw [pow_succ 4]
+    nlinarith [sq_nonneg (t : ℤ), Nat.mul_le_mul_right 4 ih]
+
+/-- Integer form of the logarithmic parameter choice, with the strict p-1 cutoff.
+For a term involving the polylogarithms, its maximum individual degree is at most t. -/
+theorem auxiliary_size {p n t a c : ℕ} (hn : 1 ≤ n) (ht : 2 ≤ t)
+    (hp : 4 ^ (2 * (n * t)) ≤ p) (ha : a ≤ t ^ 2) (hc : c ≤ n * t) :
+    max a 2 * 4 ^ c < p - 1 ∧ t < p := by
+  have htnt : t ≤ n * t := by simpa using Nat.mul_le_mul_right t hn
+  have hs := (square_slack t ht).trans (Nat.pow_le_pow_right (by decide : 0 < 4) htnt)
+  have hsq : 4 ^ (n * t) * 4 ^ (n * t) ≤ p := by simpa [two_mul, pow_add] using hp
+  have hq : 0 < 4 ^ (n * t) := by positivity
+  have hsmall : t ^ 2 * 4 ^ (n * t) + 1 < p := by
+    nlinarith [Nat.mul_le_mul_right (4 ^ (n * t)) hs]
+  have hA : max a 2 ≤ t ^ 2 := by rw [max_le_iff]; exact ⟨ha, by nlinarith⟩
+  have hprod := Nat.mul_le_mul hA (Nat.pow_le_pow_right (by decide : 0 < 4) hc)
+  exact ⟨by omega, by nlinarith [Nat.mul_le_mul_left (t ^ 2) (show 1 ≤ 4 ^ (n*t) by omega)]⟩
+
 end BBPGrouping.SelmerDiscBound

@@ -1,6 +1,6 @@
 # Computational number theory
 
-The [depth-four Chabauty–Kim certificate](chabauty-kim/README.md) computes both refined components for the thrice-punctured line over $\mathbb Z[1/6]$ at the base-3 Wieferich prime $p=1{,}006{,}003$. It includes the sieve, the root table and reproduction instructions.
+For the thrice-punctured line and a set of $s\ge1$ primes, the Chabauty–Kim loci occupy $O_s(p/\log p)$ residue discs at refined depth $2s$ and unrefined depth $4s$. The depth-four computations for $S=\{2,3\}$ give the exact refined locus at six exceptional primes. [Theorems and proofs](chabauty-kim/finite-s.md) · [Computational certificates](chabauty-kim/README.md)
 
 ## Prime-power grouping for π digit extraction
 
