@@ -49,6 +49,15 @@ The private lemma `crt_over_finset` extends fractional CRT to any finite set of 
 | `BBPGrouping.reducedGen_norm_dvd` | Every reduced `< 2/3` generator at level $M$ has odd norm dividing $2^M + 1$. |
 | `BBPGrouping.quantitative_bbg_reduced` | Full induction (Step 4): assuming `ZsigmondyFourK` and `SchinzelAuri` as explicit hypotheses, every Gaussian relation on any finite subset of the reduced `< 2/3` generators is identically zero. |
 
+## Exceptional-prime (Mirimanoff) depth-4 Chabauty–Kim sieve
+
+[MirimanoffSieve.lean](../lean/BBPGrouping/MirimanoffSieve.lean)
+
+| Lean name | Statement |
+| --- | --- |
+| `BBPGrouping.mirimanoff_sieve_sound` | Over `ℤ_[p]` (`p ≠ 2`), every common $p$-adic root of the depth-4 Kim functions at a base-3 Wieferich prime satisfies one of the three finite-field sieve tests (unresolved singular `c1 = c2 = 0`, log-zero branch, or `Li₁`-zero branch). |
+| `BBPGrouping.one_one_sieve_sound` | On the `(1, 1)` component (`L = 0`), any common root of $p^2 Y_2 = 0$ and $p^4 Y_4 = 0$ satisfies $c_2 = c_4 = 0 \pmod p$. |
+
 ## Kernel and axiom checks
 
 Run `lake build` in `lean/`. From that directory, the following prints the axiom dependencies of the public theorems:
