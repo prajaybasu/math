@@ -63,7 +63,7 @@ Run the same Sage commands with arguments 1093 and 3511. As a cross-check, evalu
 
 ## A uniform bound on the number of candidate discs
 
-For any nonzero $R\in\mathbb F_p[X,y_1,\ldots,y_4]$ of $X$-degree at most three and total $y$-degree at most six, the number of $a\ne0,1$ with $R(a,\ell_1(a),\ldots,\ell_4(a))=0$ is $O(p/\log p)$ with an absolute implied constant. The coefficients may vary with $p$. Apply this to
+For any nonzero $R\in\mathbb F_p[X,y_1,\ldots,y_4]$ of $X$-degree at most six and total $y$-degree at most six, the number of $a\ne0,1$ with $R(a,\ell_1(a),\ldots,\ell_4(a))=0$ is $O(p/\log p)$ with an absolute implied constant. The coefficients may vary with $p$. Apply this to
 $$R=y_2 H(y)(y_1^2+2Xy_2).$$
 It is nonzero since $Ck^3$ is a unit. The zero set contains the candidates from both components at a base-3 exceptional prime. For the base-2 case with $A'ds$ a unit, use $R=y_2y_4X^3 G(y_1/X)$ with the displayed formula for $V_m$ over the polynomial ring, replacing $a$ by $X$ and $\ell_i$ by $y_i$. The factor $X^3$ clears all denominators. Its product with $G$ contains $s^2dA' X^3y_4$ with nonzero coefficient. The same degree bounds apply. This estimates the number of discs. The finite-field computation and the precision required for individual lifts are separate costs.
 
@@ -74,7 +74,7 @@ $$\delta=X(1-X)\partial_X+(X-W)\partial_{y_1}
  +(1-X)\sum_{m=2}^4y_{m-1}\partial_{y_m},\qquad \delta W=0.$$
 Under $W=X^p$, $y_m=\ell_m(X)$ this acts as $X(1-X)d/dX$ by direct differentiation of the defining sums.
 
-For $0\le j<r$, impose that $(\delta^j\Phi)|_{W=X}$ be a multiple of $R$. Each output has $y$-degree at most $t$ and $X$-degree at most $E=A_0+B_0+r$, since each application increases total degree in $(X,W)$ by at most one. Multiplication by $R$ embeds the box with bounds $(E-3,t-6)$ in the output box $(E,t)$. Thus each condition costs at most $(E+1)N_t-(E-2)N_{t-6}$ linear constraints. Six successive differences of $N_t$ give $N_t-N_{t-6}\le24N_t/(t+1)$. Since $E+1\le3t^2$, the total rank is at most $t^2(72t+3)N_t$, strictly below the input dimension. Choose a nonzero solution $\Phi$.
+For $0\le j<r$, impose that $(\delta^j\Phi)|_{W=X}$ be a multiple of $R$. Each output has $y$-degree at most $t$ and $X$-degree at most $E=A_0+B_0+r$, since each application increases total degree in $(X,W)$ by at most one. Multiplication by $R$ embeds the box with bounds $(E-6,t-6)$ in the output box $(E,t)$. Thus each condition costs at most $(E+1)N_t-(E-5)N_{t-6}$ linear constraints. Six successive differences of $N_t$ give $N_t-N_{t-6}\le24N_t/(t+1)$. Since $E+1\le3t^2$, the total rank is at most $t^2(72t+6)N_t$, strictly below the input dimension. Choose a nonzero solution $\Phi$.
 
 The specialization $P=\Phi(X,X^p,\ell(X))$ is nonzero. Take the least $W$-exponent with a nonzero coefficient $f(X,y)$. Its $X$-degree is at most $t^2$ and its weighted $y$-degree (weight $m$ on $y_m$) is at most $4t$. Lemma 3 of Ghosh and Ward implies $X^p\nmid f(X,\ell(X))$ if $f$ depends on $y$; the same follows from the degree if it only depends on $X$. Higher $W$-powers cannot cancel this first block.
 

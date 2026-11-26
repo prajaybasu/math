@@ -8,3 +8,4 @@ public import BBPGrouping.MirimanoffLocalExpansion
 public import BBPGrouping.GroupedDilog
 public import BBPGrouping.MirimanoffFamily
 public import BBPGrouping.WolstenholmeSieve
+public import BBPGrouping.UniformDiscBound
