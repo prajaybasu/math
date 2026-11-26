@@ -6,3 +6,4 @@ public import BBPGrouping.CutoffOptimality
 public import BBPGrouping.MirimanoffSieve
 public import BBPGrouping.MirimanoffLocalExpansion
 public import BBPGrouping.GroupedDilog
+public import BBPGrouping.MirimanoffFamily
